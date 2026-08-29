@@ -61,6 +61,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/orders', [OrderController::class, 'adminStore'])->name('orders.store');
     Route::get('/orders/{order}', [OrderController::class, 'adminShow'])->name('orders.show');
     Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+    Route::patch('/orders/{order}/payment', [OrderController::class, 'updatePayment'])->name('orders.updatePayment');
 
     // Info Toko - hanya admin yang bisa edit
     Route::get('/store', [StoreController::class, 'edit'])->name('store.edit');

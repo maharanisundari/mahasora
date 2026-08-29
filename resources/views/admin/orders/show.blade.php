@@ -4,7 +4,7 @@
 <a href="{{ route('admin.orders.index') }}" class="text-sm text-slate-500 hover:text-amber-600">← Kembali</a>
 <div class="bg-white shadow rounded-xl overflow-hidden mt-4">
     <div class="p-6 border-b flex justify-between">
-        <div><h1 class="text-xl font-bold font-mono">{{ $order->order_code }}</h1><p class="text-sm text-slate-500">{{ $order->created_at->format('d M Y H:i') }} • {{ $order->order_type }} • Rp {{ number_format($order->total_price,0,',','.') }}</p></div>
+        <div><h1 class="text-xl font-bold font-mono">{{ $order->order_code }}</h1><p class="text-sm text-slate-500">{{ $order->created_at->format('d M Y H:i') }} • {{ $order->order_type }} • Rp {{ number_format($order->total_price,0,',','.') }} • DP Rp {{ number_format($order->total_price*0.5,0,',','.') }}</p><p class="text-xs mt-1">Metode: <strong>{{ str_replace('_',' ',ucfirst($order->payment_method ?? '-')) }}</strong> • <span class="px-2 py-0.5 rounded-full font-bold @if($order->payment_status==='lunas') bg-emerald-100 text-emerald-700 @elseif($order->payment_status==='dp_50') bg-blue-100 text-blue-700 @else bg-red-100 text-red-700 @endif">{{ $order->payment_status==='belum_bayar' ? 'Belum DP' : ($order->payment_status==='dp_50' ? 'DP 50%' : 'Lunas') }}</span></p></div>
         @php $st=$order->latestStatus->status ?? 'pending'; @endphp
         <span class="px-3 py-1 rounded-full text-sm font-bold h-fit
             @if($st==='pending') bg-yellow-100 text-yellow-700
@@ -18,8 +18,27 @@
     </div>
     @if($order->notes)<div class="px-6 pb-4"><p class="text-sm bg-slate-50 border rounded-lg p-3"><strong>Catatan:</strong> {{ $order->notes }}</p></div>@endif
 
+    <div class="px-6 pb-4">
+        <div class="bg-amber-50 border border-amber-200 rounded-lg p-3 text-sm">
+            <p class="font-bold text-amber-900">Pembayaran: {{ str_replace('_',' ',ucfirst($order->payment_method ?? '-')) }} — Rp {{ number_format($order->total_price,0,',','.') }} (DP 50% = Rp {{ number_format($order->total_price*0.5,0,',','.') }})</p>
+            <p class="text-xs text-red-700 mt-1">Pesanan tidak diproses sedikitpun sebelum DP 50%. Saat ini: <strong>{{ $order->payment_status==='belum_bayar' ? 'Belum DP' : ($order->payment_status==='dp_50' ? 'DP 50% ✓' : 'Lunas ✓') }}</strong></p>
+            <form method="POST" action="{{ route('admin.orders.updatePayment',$order) }}" class="flex gap-2 mt-2">
+                @csrf @method('PATCH')
+                <select name="payment_status" class="border rounded-lg px-3 py-1.5 text-sm flex-1">
+                    <option value="belum_bayar" @selected($order->payment_status==='belum_bayar')>Belum Bayar</option>
+                    <option value="dp_50" @selected($order->payment_status==='dp_50')>Sudah DP 50%</option>
+                    <option value="lunas" @selected($order->payment_status==='lunas')>Lunas</option>
+                </select>
+                <button class="bg-emerald-600 text-white px-4 rounded-lg text-sm hover:bg-emerald-700">Update Bayar</button>
+            </form>
+        </div>
+    </div>
+
     <div class="px-6 pb-6">
         <h3 class="font-bold mb-3">Update Status (Pending → Diproses → Selesai)</h3>
+        @if($order->payment_status==='belum_bayar')
+            <p class="text-xs bg-red-50 border border-red-200 text-red-700 rounded-lg p-2 mb-3">Tidak bisa ke Diproses/Selesai sebelum DP 50% — ubah pembayaran dulu.</p>
+        @endif
         <form method="POST" action="{{ route('admin.orders.updateStatus',$order) }}" class="flex gap-2 mb-6">
             @csrf @method('PATCH')
             <select name="status" class="border rounded-lg px-3 py-2 flex-1">
@@ -27,7 +46,7 @@
                     <option value="{{ $s }}" @selected($st===$s)>{{ ucfirst($s) }}</option>
                 @endforeach
             </select>
-            <button class="bg-amber-600 text-white px-6 rounded-lg hover:bg-amber-700">Perbarui</button>
+            <button class="bg-amber-800 text-white px-6 rounded-lg hover:bg-amber-900">Perbarui</button>
         </form>
 
         <h3 class="font-bold mb-3">Riwayat Progres</h3>

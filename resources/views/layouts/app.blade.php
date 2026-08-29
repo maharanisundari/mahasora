@@ -33,10 +33,6 @@
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
-                    <form action="{{ route('catalog.index') }}" method="GET" class="hidden sm:flex items-center">
-                        <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari layanan..." class="border border-amber-200 rounded-l-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 w-40 lg:w-56 bg-white">
-                        <button class="bg-amber-800 text-white px-3 py-1.5 rounded-r-lg text-sm hover:bg-amber-900">Cari</button>
-                    </form>
                     @guest
                         <a href="{{ route('login') }}" class="text-sm px-4 py-2 border border-amber-200 rounded-lg hover:bg-amber-50 text-stone-700">Login</a>
                         <a href="{{ route('register') }}" class="text-sm px-4 py-2 bg-amber-800 text-white rounded-lg hover:bg-amber-900">Daftar</a>

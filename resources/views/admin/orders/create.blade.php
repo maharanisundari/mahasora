@@ -32,10 +32,31 @@
             </select>
         </div>
         <div>
+            <label class="text-sm font-medium">Metode Pembayaran *</label>
+            <select name="payment_method" required class="w-full border rounded-lg px-3 py-2 mt-1">
+                <option value="cash">Cash</option>
+                <option value="transfer_bank">Transfer Bank</option>
+                <option value="dana">DANA</option>
+                <option value="ovo">OVO</option>
+                <option value="gopay">GoPay</option>
+                <option value="shopeepay">ShopeePay</option>
+                <option value="lainnya">Lainnya</option>
+            </select>
+        </div>
+        <div>
+            <label class="text-sm font-medium">Status Pembayaran *</label>
+            <select name="payment_status" required class="w-full border rounded-lg px-3 py-2 mt-1">
+                <option value="belum_bayar">Belum Bayar - tidak diproses</option>
+                <option value="dp_50">Sudah DP 50% - boleh diproses</option>
+                <option value="lunas">Lunas</option>
+            </select>
+            <p class="text-xs text-red-600 mt-1">Pesanan tidak akan diproses sedikitpun sebelum DP 50%.</p>
+        </div>
+        <div>
             <label class="text-sm font-medium">Catatan</label>
             <textarea name="notes" rows="3" placeholder="Catatan pesanan offline..." class="w-full border rounded-lg px-3 py-2 mt-1"></textarea>
         </div>
-        <button class="bg-amber-600 text-white px-6 py-2 rounded-lg hover:bg-amber-700 w-full font-semibold">Simpan Pesanan & Terbitkan Kode TRX</button>
+        <button class="bg-amber-800 text-white px-6 py-2 rounded-lg hover:bg-amber-900 w-full font-semibold">Simpan Pesanan & Terbitkan Kode TRX</button>
     </form>
 </div>
 @endsection

@@ -8,10 +8,16 @@
             <div class="flex justify-between items-start">
                 <div>
                     <h1 class="text-xl font-bold font-mono">{{ $order->order_code }}</h1>
-                    <p class="text-sm text-slate-500">{{ $order->created_at->format('d M Y H:i') }} • {{ $order->order_type }}</p>
+                    <p class="text-sm text-slate-500">{{ $order->created_at->format('d M Y H:i') }} • {{ $order->order_type }} • {{ str_replace('_',' ',ucfirst($order->payment_method ?? '-')) }}</p>
+                    <p class="text-xs mt-1">
+                        <span class="px-2 py-0.5 rounded-full font-bold @if($order->payment_status==='lunas') bg-emerald-100 text-emerald-700 @elseif($order->payment_status==='dp_50') bg-blue-100 text-blue-700 @else bg-red-100 text-red-700 @endif">
+                            {{ $order->payment_status==='belum_bayar' ? 'Belum DP - tidak diproses' : ($order->payment_status==='dp_50' ? 'DP 50% - boleh diproses' : 'Lunas') }}
+                        </span>
+                        <span class="text-slate-400">DP: Rp {{ number_format($order->total_price*0.5,0,',','.') }}</span>
+                    </p>
                 </div>
                 @php $st=$order->latestStatus->status ?? 'pending'; @endphp
-                <span class="px-3 py-1 rounded-full text-sm font-bold
+                <span class="px-3 py-1 rounded-full text-sm font-bold h-fit
                     @if($st==='pending') bg-yellow-100 text-yellow-700
                     @elseif($st==='diproses') bg-blue-100 text-blue-700
                     @elseif($st==='selesai') bg-emerald-100 text-emerald-700

@@ -22,11 +22,11 @@ class OrderController extends Controller
     {
         $request->validate([
             'service_id' => 'required|exists:services,id',
+            'payment_method' => 'required|in:cash,transfer_bank,dana,ovo,gopay,shopeepay,lainnya',
             'notes' => 'nullable|string',
         ]);
 
         $service = $service ?? Service::findOrFail($request->service_id);
-        // if service_id passed differs, use that
         $service = Service::findOrFail($request->service_id);
 
         $order = Order::create([
@@ -35,6 +35,8 @@ class OrderController extends Controller
             'service_id' => $service->id,
             'total_price' => $service->price,
             'order_type' => 'online',
+            'payment_method' => $request->payment_method,
+            'payment_status' => 'belum_bayar',
             'notes' => $request->notes,
         ]);
 
@@ -45,7 +47,7 @@ class OrderController extends Controller
             'created_at' => now(),
         ]);
 
-        return redirect()->route('orders.my')->with('success', 'Pesanan berhasil dibuat: ' . $order->order_code);
+        return redirect()->route('orders.my')->with('success', 'Pesanan berhasil dibuat: ' . $order->order_code . ' — DP 50% ('.number_format($service->price*0.5,0,',','.').') wajib dibayar sebelum diproses. Metode: '.$request->payment_method);
     }
 
     // Admin offline order
@@ -61,6 +63,8 @@ class OrderController extends Controller
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'service_id' => 'required|exists:services,id',
+            'payment_method' => 'required|in:cash,transfer_bank,dana,ovo,gopay,shopeepay,lainnya',
+            'payment_status' => 'required|in:belum_bayar,dp_50,lunas',
             'notes' => 'nullable|string',
             'order_type' => 'required|in:online,offline',
         ]);
@@ -71,6 +75,8 @@ class OrderController extends Controller
             'service_id' => $service->id,
             'total_price' => $service->price,
             'order_type' => $request->order_type,
+            'payment_method' => $request->payment_method,
+            'payment_status' => $request->payment_status,
             'notes' => $request->notes,
         ]);
         OrderStatus::create([
@@ -139,6 +145,10 @@ class OrderController extends Controller
         $request->validate([
             'status' => 'required|in:pending,diproses,selesai,dibatalkan',
         ]);
+        // DP 50% wajib sebelum diproses
+        if (in_array($request->status, ['diproses','selesai']) && $order->payment_status === 'belum_bayar') {
+            return back()->withErrors(['status' => 'Pesanan tidak bisa diproses sebelum DP 50% dibayar. Ubah status pembayaran dulu menjadi DP 50% / Lunas.']);
+        }
         OrderStatus::create([
             'order_id' => $order->id,
             'status' => $request->status,
@@ -146,5 +156,14 @@ class OrderController extends Controller
             'created_at' => now(),
         ]);
         return back()->with('success', 'Status diperbarui ke ' . $request->status);
+    }
+
+    public function updatePayment(Request $request, Order $order)
+    {
+        $request->validate([
+            'payment_status' => 'required|in:belum_bayar,dp_50,lunas',
+        ]);
+        $order->update(['payment_status' => $request->payment_status]);
+        return back()->with('success', 'Status pembayaran diperbarui ke ' . $request->payment_status);
     }
 }

@@ -15,6 +15,8 @@ class Order extends Model
         'service_id',
         'total_price',
         'order_type',
+        'payment_method',
+        'payment_status',
         'notes',
     ];
 
