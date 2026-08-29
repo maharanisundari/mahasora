@@ -23,20 +23,27 @@ class OrderController extends Controller
         $request->validate([
             'service_id' => 'required|exists:services,id',
             'payment_method' => 'required|in:cash,transfer_bank,dana,ovo,gopay,shopeepay,lainnya',
+            'delivery_type' => 'required|in:ambil_di_toko,antar',
+            'delivery_address' => 'nullable|required_if:delivery_type,antar|string',
             'notes' => 'nullable|string',
         ]);
 
         $service = $service ?? Service::findOrFail($request->service_id);
         $service = Service::findOrFail($request->service_id);
+        $ongkir = $request->delivery_type === 'antar' ? 15000 : 0;
+        $total = $service->price + $ongkir;
 
         $order = Order::create([
             'order_code' => Order::generateOrderCode(),
             'user_id' => Auth::id(),
             'service_id' => $service->id,
-            'total_price' => $service->price,
+            'total_price' => $total,
             'order_type' => 'online',
             'payment_method' => $request->payment_method,
             'payment_status' => 'belum_bayar',
+            'delivery_type' => $request->delivery_type,
+            'delivery_address' => $request->delivery_address,
+            'ongkir' => $ongkir,
             'notes' => $request->notes,
         ]);
 
@@ -65,18 +72,25 @@ class OrderController extends Controller
             'service_id' => 'required|exists:services,id',
             'payment_method' => 'required|in:cash,transfer_bank,dana,ovo,gopay,shopeepay,lainnya',
             'payment_status' => 'required|in:belum_bayar,dp_50,lunas',
+            'delivery_type' => 'required|in:ambil_di_toko,antar',
+            'delivery_address' => 'nullable|required_if:delivery_type,antar|string',
             'notes' => 'nullable|string',
             'order_type' => 'required|in:online,offline',
         ]);
         $service = Service::findOrFail($request->service_id);
+        $ongkir = $request->delivery_type === 'antar' ? 15000 : 0;
+        $total = $service->price + $ongkir;
         $order = Order::create([
             'order_code' => Order::generateOrderCode(),
             'user_id' => $request->user_id,
             'service_id' => $service->id,
-            'total_price' => $service->price,
+            'total_price' => $total,
             'order_type' => $request->order_type,
             'payment_method' => $request->payment_method,
             'payment_status' => $request->payment_status,
+            'delivery_type' => $request->delivery_type,
+            'delivery_address' => $request->delivery_address,
+            'ongkir' => $ongkir,
             'notes' => $request->notes,
         ]);
         OrderStatus::create([

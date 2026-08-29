@@ -76,9 +76,32 @@
             </div>
         </div>
 
+        <div class="border-t pt-5">
+            <h3 class="font-bold mb-3">Info Pembayaran (ditampilkan saat checkout)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="text-sm font-medium">Nama Bank</label>
+                    <input type="text" name="bank_name" value="{{ old('bank_name', $store->bank_name) }}" placeholder="BCA / BRI / BNI" class="w-full border rounded-lg px-3 py-2 mt-1">
+                </div>
+                <div>
+                    <label class="text-sm font-medium">No. Rekening</label>
+                    <input type="text" name="bank_account_number" value="{{ old('bank_account_number', $store->bank_account_number) }}" placeholder="1234567890" class="w-full border rounded-lg px-3 py-2 mt-1">
+                </div>
+            </div>
+            <div class="mt-4">
+                <label class="text-sm font-medium">Atas Nama Rekening</label>
+                <input type="text" name="bank_account_name" value="{{ old('bank_account_name', $store->bank_account_name) }}" placeholder="MahaSora Official" class="w-full border rounded-lg px-3 py-2 mt-1">
+            </div>
+            <div class="mt-4">
+                <label class="text-sm font-medium">Instruksi Pembayaran</label>
+                <textarea name="payment_instructions" rows="4" placeholder="Tulis norek DANA/OVO/GoPay juga, contoh: DANA 081234567890 a.n MahaSora" class="w-full border rounded-lg px-3 py-2 mt-1">{{ old('payment_instructions', $store->payment_instructions) }}</textarea>
+                <p class="text-xs text-stone-500 mt-1">Akan tampil di halaman checkout & detail pesanan.</p>
+            </div>
+        </div>
+
         <div class="flex gap-3 pt-2">
-            <button class="bg-amber-600 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-amber-700">Simpan Info Toko</button>
-            <a href="{{ route('store.show') }}" class="border px-6 py-2.5 rounded-lg hover:bg-slate-50">Batal</a>
+            <button class="bg-amber-800 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-amber-900">Simpan Info Toko</button>
+            <a href="{{ route('store.show') }}" class="border px-6 py-2.5 rounded-lg hover:bg-amber-50">Batal</a>
         </div>
     </form>
 </div>

@@ -4,9 +4,10 @@
 <div class="bg-gradient-to-r from-amber-700 to-orange-800 rounded-2xl p-8 text-white mb-8">
     <h1 class="text-3xl font-bold">MahaSora - Layanan Terbaik</h1>
     <p class="mt-2 text-amber-100 max-w-2xl">Pilih layanan jasa, checkout online, dan pantau progres pesananmu. Admin juga bisa input pesanan offline/WA dengan cepat.</p>
-    <form method="GET" class="mt-6 flex max-w-lg">
-        <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari layanan (contoh: desain, servis...)" class="flex-1 rounded-l-lg px-4 py-3 text-slate-800 focus:outline-none">
-        <button class="bg-slate-900 px-6 rounded-r-lg font-semibold hover:bg-slate-800">Cari</button>
+    <form method="GET" class="mt-6 flex max-w-xl bg-white/95 backdrop-blur rounded-full p-1.5 shadow-lg gap-2">
+        <span class="pl-4 pr-1 flex items-center text-stone-400">🔍</span>
+        <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari layanan impianmu..." class="flex-1 py-2.5 text-stone-800 focus:outline-none bg-transparent">
+        <button class="bg-amber-800 px-7 rounded-full font-semibold hover:bg-amber-900 text-white shrink-0">Cari</button>
     </form>
 </div>
 

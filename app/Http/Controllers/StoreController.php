@@ -35,11 +35,15 @@ class StoreController extends Controller
             'instagram' => 'nullable|string|max:255',
             'facebook' => 'nullable|string|max:255',
             'opening_hours' => 'nullable|string|max:255',
+            'bank_name' => 'nullable|string|max:100',
+            'bank_account_number' => 'nullable|string|max:100',
+            'bank_account_name' => 'nullable|string|max:255',
+            'payment_instructions' => 'nullable|string',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
         ]);
 
         $store = StoreSetting::current();
-        $data = $request->only(['store_name','description','address','phone','email','whatsapp','instagram','facebook','opening_hours']);
+        $data = $request->only(['store_name','description','address','phone','email','whatsapp','instagram','facebook','opening_hours','bank_name','bank_account_number','bank_account_name','payment_instructions']);
 
         if ($request->hasFile('logo')) {
             if ($store->logo) Storage::disk('public')->delete($store->logo);

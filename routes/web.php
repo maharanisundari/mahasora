@@ -8,6 +8,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\CustomerDashboardController;
+use App\Http\Controllers\HistoryController;
 
 // Public catalog + Info Toko (bisa dilihat guest, pembeli, admin)
 Route::get('/', [ServiceController::class, 'catalog'])->name('catalog.index');
@@ -30,8 +32,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 
-// Customer only - Pesanan Saya & Checkout (admin tidak memesan untuk diri sendiri)
+// Customer only - Dashboard, Pesanan Saya & Checkout (admin tidak memesan untuk diri sendiri)
 Route::middleware(['auth', 'role:customer'])->group(function () {
+    Route::get('/dashboard', [CustomerDashboardController::class, 'index'])->name('dashboard');
     Route::get('/checkout/{service}', [OrderController::class, 'checkout'])->name('orders.checkout');
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
     Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('orders.my');
@@ -66,4 +69,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     // Info Toko - hanya admin yang bisa edit
     Route::get('/store', [StoreController::class, 'edit'])->name('store.edit');
     Route::put('/store', [StoreController::class, 'update'])->name('store.update');
+
+    // Riwayat selesai terpisah
+    Route::get('/history', [HistoryController::class, 'index'])->name('history.index');
 });

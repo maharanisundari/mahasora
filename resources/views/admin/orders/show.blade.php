@@ -13,7 +13,7 @@
             @else bg-red-100 text-red-700 @endif">{{ ucfirst($st) }}</span>
     </div>
     <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div><h3 class="text-sm font-bold text-slate-500 uppercase">Layanan</h3><p class="font-semibold">{{ $order->service->service_name }} — Rp {{ number_format($order->service->price,0,',','.') }}</p><p class="text-sm text-slate-600">{{ $order->service->description }}</p></div>
+        <div><h3 class="text-sm font-bold text-slate-500 uppercase">Layanan</h3><p class="font-semibold">{{ $order->service->service_name }} — Rp {{ number_format($order->service->price,0,',','.') }}</p><p class="text-sm text-slate-600">{{ $order->service->description }}</p><p class="text-sm mt-2"><strong>Antar:</strong> {{ $order->delivery_type==='antar' ? 'Antar — '.$order->delivery_address.' (Ongkir Rp '.number_format($order->ongkir,0,',','.').')' : 'Ambil di toko' }}</p></div>
         <div><h3 class="text-sm font-bold text-slate-500 uppercase">Pelanggan</h3><p class="font-semibold">{{ $order->user->name }}</p><p class="text-sm">{{ $order->user->email }} • {{ $order->user->phone }}</p><p class="text-sm text-slate-500">{{ $order->user->address }}</p></div>
     </div>
     @if($order->notes)<div class="px-6 pb-4"><p class="text-sm bg-slate-50 border rounded-lg p-3"><strong>Catatan:</strong> {{ $order->notes }}</p></div>@endif

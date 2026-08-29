@@ -41,6 +41,20 @@
         @if($order->notes)
             <div class="px-6 pb-4"><p class="text-sm bg-slate-50 border rounded-lg p-3"><strong>Catatan:</strong> {{ $order->notes }}</p></div>
         @endif
+
+        <div class="px-6 pb-4">
+            <div class="bg-amber-50 border border-amber-200 rounded-lg p-3 text-sm">
+                <p><strong>Metode:</strong> {{ str_replace('_',' ',ucfirst($order->payment_method ?? '-')) }} — <strong>DP 50%:</strong> Rp {{ number_format($order->total_price*0.5,0,',','.') }} — Total: Rp {{ number_format($order->total_price,0,',','.') }} @if($order->ongkir>0) (Ongkir Rp {{ number_format($order->ongkir,0,',','.') }}) @endif</p>
+                <p class="mt-1"><strong>Antar:</strong> {{ $order->delivery_type==='antar' ? 'Antar ke pembeli — '.$order->delivery_address.' (Ongkir Rp '.number_format($order->ongkir,0,',','.').')' : 'Ambil di toko' }}</p>
+                @if(isset($storeInfo))
+                    <p class="text-xs whitespace-pre-line mt-2">{{ $storeInfo->payment_instructions }}</p>
+                    @if($order->payment_status!=='lunas')
+                        <a href="https://wa.me/{{ preg_replace('/[^0-9]/','',$storeInfo->whatsapp) }}?text={{ urlencode('Halo MahaSora, saya '.$order->user->name.' order '.$order->order_code.' sudah '.($order->payment_status==='dp_50' ? 'DP 50%' : 'bayar, mohon konfirmasi')) }}" target="_blank" class="inline-block mt-2 bg-emerald-600 text-white px-4 py-2 rounded-lg text-xs hover:bg-emerald-700">Konfirmasi WA ke Admin →</a>
+                        <span class="text-xs text-stone-500 ml-2">Setelah DP/lunas, admin akan ubah status pembayaran.</span>
+                    @endif
+                @endif
+            </div>
+        </div>
         <div class="px-6 pb-6">
             <h3 class="font-bold mb-3">Riwayat Status</h3>
             <div class="relative border-l-2 border-slate-200 ml-3 space-y-4">

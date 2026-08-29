@@ -17,11 +17,15 @@ class Order extends Model
         'order_type',
         'payment_method',
         'payment_status',
+        'delivery_type',
+        'delivery_address',
+        'ongkir',
         'notes',
     ];
 
     protected $casts = [
         'total_price' => 'decimal:2',
+        'ongkir' => 'decimal:2',
     ];
 
     public function user()

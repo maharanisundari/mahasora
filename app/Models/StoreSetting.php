@@ -20,6 +20,10 @@ class StoreSetting extends Model
         'facebook',
         'logo',
         'opening_hours',
+        'bank_name',
+        'bank_account_number',
+        'bank_account_name',
+        'payment_instructions',
     ];
 
     public static function current(): self
@@ -36,6 +40,10 @@ class StoreSetting extends Model
                 'instagram' => '@mahasora.id',
                 'facebook' => 'MahaSora Official',
                 'opening_hours' => 'Senin - Sabtu, 08:00 - 17:00 WIB',
+                'bank_name' => 'BCA',
+                'bank_account_number' => '1234567890',
+                'bank_account_name' => 'MahaSora Official',
+                'payment_instructions' => "DP 50% wajib sebelum diproses.\nCash: bayar di toko\nTransfer Bank: BCA 1234567890 a.n MahaSora\nDANA/OVO/GoPay/ShopeePay: 081234567890 a.n MahaSora\nSetelah transfer, konfirmasi via WA admin dengan kirim bukti.",
             ]
         );
     }

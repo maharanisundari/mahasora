@@ -24,10 +24,11 @@
                         <a href="{{ route('store.show') }}" class="hover:text-amber-800 {{ request()->routeIs('store.show') ? 'text-amber-900 font-semibold' : 'text-stone-600' }}">Info Toko</a>
                         @auth
                             @if(auth()->user()->role==='customer')
+                                <a href="{{ route('dashboard') }}" class="hover:text-amber-800 {{ request()->routeIs('dashboard') ? 'text-amber-900 font-semibold' : 'text-stone-600' }}">Dashboard</a>
                                 <a href="{{ route('orders.my') }}" class="hover:text-amber-800 {{ request()->routeIs('orders.my*') ? 'text-amber-900 font-semibold' : 'text-stone-600' }}">Pesanan Saya</a>
                             @endif
                             @if(auth()->user()->role==='admin')
-                                <a href="{{ route('admin.dashboard') }}" class="hover:text-amber-800 {{ request()->routeIs('admin.dashboard') ? 'text-amber-900 font-semibold' : 'text-stone-600' }}">Dashboard Admin</a>
+                                <a href="{{ route('admin.dashboard') }}" class="hover:text-amber-800 {{ request()->routeIs('admin.dashboard') ? 'text-amber-900 font-semibold' : 'text-stone-600' }}">Dashboard</a>
                             @endif
                         @endauth
                     </div>
