@@ -25,7 +25,7 @@
     <div class="overflow-x-auto">
         <table class="w-full text-sm">
             <thead class="bg-slate-50">
-                <tr><th class="text-left px-4 py-3">Kode</th><th class="text-left px-4 py-3">Pelanggan</th><th class="text-left px-4 py-3">Layanan</th><th class="text-left px-4 py-3">Total</th><th class="text-left px-4 py-3 min-w-[115px]">Tipe</th><th class="text-left px-4 py-3">Bayar</th><th class="text-left px-4 py-3">Status</th><th class="px-4 py-3">Aksi</th></tr>
+                <tr><th class="text-left px-4 py-3">Kode</th><th class="text-left px-4 py-3">Pelanggan</th><th class="text-left px-4 py-3">Layanan</th><th class="text-left px-4 py-3">Total</th><th class="text-left px-4 py-3 min-w-[115px]">Tipe</th><th class="text-left px-4 py-3 min-w-[90px]">Bayar</th><th class="text-left px-4 py-3">Status</th><th class="px-4 py-3">Aksi</th></tr>
             </thead>
             <tbody class="divide-y">
                 @forelse($orders as $o)
@@ -36,8 +36,8 @@
                         <td class="px-4 py-3">Rp {{ number_format($o->total_price,0,',','.') }}</td>
                         <td class="px-4 py-3"><span class="inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap leading-none min-w-[95px] {{ $o->order_type==='media_sosial'?'bg-blue-100 text-blue-700':'bg-amber-100 text-amber-700' }}">{{ str_replace('_',' ', $o->order_type) }}</span></td>
                         <td class="px-4 py-3">
-                            <span class="text-xs">{{ str_replace('_',' ',ucfirst($o->payment_method ?? '-')) }}</span><br>
-                            <span class="px-1.5 py-0.5 rounded text-[10px] font-bold @if($o->payment_status==='lunas') bg-emerald-100 text-emerald-700 @elseif($o->payment_status==='dp_50') bg-blue-100 text-blue-700 @else bg-red-100 text-red-700 @endif">{{ $o->payment_status==='belum_bayar' ? 'Belum DP' : ($o->payment_status==='dp_50' ? 'DP 50%' : 'Lunas') }}</span>
+                            <span class="text-xs whitespace-nowrap">{{ str_replace('_',' ',ucfirst($o->payment_method ?? '-')) }}</span><br>
+                            <span class="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-[11px] font-bold whitespace-nowrap leading-none min-w-[72px] @if($o->payment_status==='lunas') bg-emerald-100 text-emerald-700 @elseif($o->payment_status==='dp_50') bg-blue-100 text-blue-700 @else bg-red-100 text-red-700 @endif">{{ $o->payment_status==='belum_bayar' ? 'Belum DP' : ($o->payment_status==='dp_50' ? 'DP 50%' : 'Lunas') }}</span>
                         </td>
                         <td class="px-4 py-3">
                             @php $st=$o->latestStatus->status ?? 'pending'; @endphp
