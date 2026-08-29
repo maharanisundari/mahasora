@@ -49,8 +49,8 @@
                 @if(isset($storeInfo))
                     <p class="text-xs whitespace-pre-line mt-2">{{ $storeInfo->payment_instructions }}</p>
                     @if($order->payment_status!=='lunas')
-                        <a href="https://wa.me/{{ preg_replace('/[^0-9]/','',$storeInfo->whatsapp) }}?text={{ urlencode('Halo MahaSora, saya '.$order->user->name.' order '.$order->order_code.' sudah '.($order->payment_status==='dp_50' ? 'DP 50%' : 'bayar, mohon konfirmasi')) }}" target="_blank" class="inline-block mt-2 bg-emerald-600 text-white px-4 py-2 rounded-lg text-xs hover:bg-emerald-700">Konfirmasi WA ke Admin →</a>
-                        <span class="text-xs text-stone-500 ml-2">Setelah DP/lunas, admin akan ubah status pembayaran.</span>
+                        <a href="https://wa.me/{{ preg_replace('/[^0-9]/','',$storeInfo->whatsapp) }}" target="_blank" class="inline-block mt-2 bg-emerald-600 text-white px-4 py-2 rounded-lg text-xs hover:bg-emerald-700">Konfirmasi WA ke Admin →</a>
+                        <span class="text-xs text-stone-500 ml-2">Chat kosong — silakan ketik bebas, setelah DP/lunas admin akan ubah status.</span>
                     @endif
                 @endif
             </div>
