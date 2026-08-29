@@ -50,7 +50,7 @@
                     <p class="text-xs whitespace-pre-line mt-2">{{ $storeInfo->payment_instructions }}</p>
                     @if($order->payment_status!=='lunas')
                         <a href="https://wa.me/{{ preg_replace('/[^0-9]/','',$storeInfo->whatsapp) }}" target="_blank" class="inline-block mt-2 bg-emerald-600 text-white px-4 py-2 rounded-lg text-xs hover:bg-emerald-700">Konfirmasi WA ke Admin →</a>
-                        <span class="text-xs text-stone-500 ml-2">Chat kosong — silakan ketik bebas, setelah DP/lunas admin akan ubah status.</span>
+                        <span class="text-xs text-stone-500 ml-2">Jika sudah membayar dp atau lunas, tolong konfirmasi ke admin, lalu admin akan mengubah status pembayarannya</span>
                     @endif
                 @endif
             </div>
