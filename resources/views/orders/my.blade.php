@@ -27,7 +27,6 @@
                     <th class="text-left px-4 py-3 font-semibold min-w-[115px]">Tipe</th>
                     <th class="text-left px-4 py-3 font-semibold min-w-[90px]">Bayar</th>
                     <th class="text-left px-4 py-3 font-semibold">Status</th>
-                    <th class="text-left px-4 py-3 font-semibold">Tanggal</th>
                     <th class="px-4 py-3 font-semibold">Aksi</th>
                 </tr>
             </thead>
@@ -46,19 +45,10 @@
                             @php $st=$o->latestStatus->status ?? 'pending'; @endphp
                             <span class="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xs font-semibold whitespace-nowrap leading-none @if($st==='pending') bg-yellow-100 text-yellow-700 @elseif($st==='diproses') bg-blue-100 text-blue-700 @elseif($st==='selesai') bg-emerald-100 text-emerald-700 @else bg-red-100 text-red-700 @endif">{{ ucfirst($st) }}</span>
                         </td>
-                        <td class="px-4 py-3">
-                            @php $st=$o->latestStatus->status ?? 'pending'; @endphp
-                            <span class="px-2 py-1 rounded-full text-xs font-semibold
-                                @if($st==='pending') bg-yellow-100 text-yellow-700
-                                @elseif($st==='diproses') bg-blue-100 text-blue-700
-                                @elseif($st==='selesai') bg-emerald-100 text-emerald-700
-                                @else bg-red-100 text-red-700 @endif">{{ ucfirst($st) }}</span>
-                        </td>
-                        <td class="px-4 py-3 text-xs">{{ $o->created_at->format('d/m/Y H:i') }}</td>
-                        <td class="px-4 py-3 text-center"><a href="{{ route('orders.myShow',$o) }}" class="text-amber-600 hover:underline">Detail</a></td>
+                        <td class="px-4 py-3 text-center"><a href="{{ route('orders.myShow',$o) }}" class="text-amber-600 hover:underline border border-amber-200 px-3 py-1 rounded-full text-xs">Detail</a></td>
                     </tr>
                 @empty
-                    <tr><td colspan="8" class="text-center py-12 text-slate-500">Belum ada pesanan. Mulai dari katalog!</td></tr>
+                    <tr><td colspan="7" class="text-center py-12 text-slate-500">Belum ada pesanan. Mulai dari katalog!</td></tr>
                 @endforelse
             </tbody>
         </table>
