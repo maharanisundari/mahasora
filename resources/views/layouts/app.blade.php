@@ -111,7 +111,7 @@
                         <p class="font-semibold text-stone-700">Kontak & Alamat</p>
                         <p class="mt-1">{{ $storeInfo->address }}</p>
                         <p>Telp/WA: {{ $storeInfo->whatsapp ?? $storeInfo->phone }} | Email: {{ $storeInfo->email }}</p>
-                        @if($storeInfo->instagram)<p>IG: {{ $storeInfo->instagram }} | FB: {{ $storeInfo->facebook }}</p>@endif
+                        <p>IG: {{ $storeInfo->instagram ?? '-' }} | TikTok: {{ $storeInfo->tiktok ?? '-' }} | FB: {{ $storeInfo->facebook ?? '-' }}</p>
                     </div>
                     <div class="text-right md:text-right">
                         <p class="font-semibold">Jam Buka: {{ $storeInfo->opening_hours }}</p>

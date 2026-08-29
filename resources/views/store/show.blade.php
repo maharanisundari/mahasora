@@ -51,6 +51,10 @@
                         <p class="font-semibold">{{ $store->instagram ?? '-' }}</p>
                     </div>
                     <div>
+                        <p class="text-slate-500 text-xs uppercase">TikTok</p>
+                        <p class="font-semibold">{{ $store->tiktok ?? '-' }}</p>
+                    </div>
+                    <div>
                         <p class="text-slate-500 text-xs uppercase">Facebook</p>
                         <p class="font-semibold">{{ $store->facebook ?? '-' }}</p>
                     </div>
