@@ -11,13 +11,13 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center gap-8">
-                    <a href="{{ route('catalog.index') }}" class="flex items-center gap-2 font-bold text-xl text-indigo-700">
+                    <a href="{{ route('catalog.index') }}" class="flex items-center gap-2 font-bold text-xl text-indigo-700 shrink-0">
                         @if(isset($storeInfo) && $storeInfo->logo)
-                            <img src="{{ asset('storage/'.$storeInfo->logo) }}" alt="Logo" class="w-9 h-9 rounded-lg object-cover border">
+                            <img src="{{ asset('storage/'.$storeInfo->logo) }}" alt="Logo" class="w-9 h-9 rounded-lg object-cover border shrink-0" style="width:36px;height:36px;object-fit:cover;">
                         @else
-                            <span class="w-9 h-9 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-bold text-sm">MS</span>
+                            <span class="w-9 h-9 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-bold text-sm shrink-0" style="width:36px;height:36px;">MS</span>
                         @endif
-                        {{ $storeInfo->store_name ?? 'MahaSora' }}
+                        <span class="truncate max-w-[120px]">{{ $storeInfo->store_name ?? 'MahaSora' }}</span>
                         <span class="hidden sm:inline text-xs bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full">TeFa RPL SMKN 1 Katapang</span>
                     </a>
                     <div class="hidden md:flex items-center gap-4 text-sm">

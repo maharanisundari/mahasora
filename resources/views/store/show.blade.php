@@ -5,9 +5,9 @@
     <div class="bg-white rounded-xl shadow overflow-hidden">
         <div class="bg-gradient-to-r from-indigo-600 to-violet-600 p-8 text-white flex flex-col md:flex-row gap-6 items-center">
             @if($store->logo)
-                <img src="{{ asset('storage/'.$store->logo) }}" alt="Logo {{ $store->store_name }}" class="w-24 h-24 rounded-xl bg-white object-cover border-4 border-white/30">
+                <img src="{{ asset('storage/'.$store->logo) }}" alt="Logo {{ $store->store_name }}" class="w-24 h-24 rounded-xl bg-white object-cover border-4 border-white/30 shrink-0" style="width:96px;height:96px;object-fit:cover;">
             @else
-                <div class="w-24 h-24 rounded-xl bg-white text-indigo-600 flex items-center justify-center text-3xl font-bold">MS</div>
+                <div class="w-24 h-24 rounded-xl bg-white text-indigo-600 flex items-center justify-center text-3xl font-bold shrink-0" style="width:96px;height:96px;">MS</div>
             @endif
             <div>
                 <h1 class="text-3xl font-bold">{{ $store->store_name }}</h1>
