@@ -16,11 +16,13 @@
             <p class="text-indigo-600 font-bold text-xl mt-2">Rp {{ number_format($service->price,0,',','.') }}</p>
             <div class="prose prose-sm max-w-none mt-4 text-slate-600 whitespace-pre-line">{{ $service->description }}</div>
             <div class="mt-8 flex gap-3">
-                @auth
+                @guest
+                    <a href="{{ route('login') }}" class="bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700">Login untuk Memesan</a>
+                @elseif(auth()->user()->role==='customer')
                     <a href="{{ route('orders.checkout',$service) }}" class="bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700">Pesan Sekarang</a>
                 @else
-                    <a href="{{ route('login') }}" class="bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700">Login untuk Memesan</a>
-                @endauth
+                    <span class="bg-slate-100 text-slate-500 px-8 py-3 rounded-lg">Admin kelola via Dashboard</span>
+                @endif
                 <a href="{{ route('catalog.index') }}" class="border px-6 py-3 rounded-lg hover:bg-slate-50">Katalog Lainnya</a>
             </div>
         </div>

@@ -18,7 +18,9 @@
                     <div class="hidden md:flex items-center gap-4 text-sm">
                         <a href="{{ route('catalog.index') }}" class="hover:text-indigo-600 {{ request()->routeIs('catalog.*') ? 'text-indigo-600 font-semibold' : '' }}">Katalog</a>
                         @auth
-                            <a href="{{ route('orders.my') }}" class="hover:text-indigo-600 {{ request()->routeIs('orders.my*') ? 'text-indigo-600 font-semibold' : '' }}">Pesanan Saya</a>
+                            @if(auth()->user()->role==='customer')
+                                <a href="{{ route('orders.my') }}" class="hover:text-indigo-600 {{ request()->routeIs('orders.my*') ? 'text-indigo-600 font-semibold' : '' }}">Pesanan Saya</a>
+                            @endif
                             @if(auth()->user()->role==='admin')
                                 <a href="{{ route('admin.dashboard') }}" class="hover:text-indigo-600">Dashboard Admin</a>
                             @endif

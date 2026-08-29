@@ -22,12 +22,14 @@ Route::middleware('guest')->group(function () {
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
-// Authenticated common
+// Authenticated common (shared)
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+});
 
-    // Customer orders (also accessible by admin)
+// Customer only - Pesanan Saya & Checkout (admin tidak memesan untuk diri sendiri)
+Route::middleware(['auth', 'role:customer'])->group(function () {
     Route::get('/checkout/{service}', [OrderController::class, 'checkout'])->name('orders.checkout');
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
     Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('orders.my');

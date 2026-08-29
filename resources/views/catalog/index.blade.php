@@ -39,11 +39,13 @@
                     <p class="mt-3 font-bold text-indigo-600 text-lg">Rp {{ number_format($s->price,0,',','.') }}</p>
                     <div class="mt-4 flex gap-2">
                         <a href="{{ route('catalog.show',$s) }}" class="flex-1 text-center border rounded-lg py-2 text-sm hover:bg-slate-50">Detail</a>
-                        @auth
+                        @guest
+                            <a href="{{ route('login') }}" class="flex-1 text-center bg-indigo-600 text-white rounded-lg py-2 text-sm hover:bg-indigo-700">Login untuk Pesan</a>
+                        @elseif(auth()->user()->role==='customer')
                             <a href="{{ route('orders.checkout',$s) }}" class="flex-1 text-center bg-indigo-600 text-white rounded-lg py-2 text-sm hover:bg-indigo-700">Pesan</a>
                         @else
-                            <a href="{{ route('login') }}" class="flex-1 text-center bg-indigo-600 text-white rounded-lg py-2 text-sm hover:bg-indigo-700">Login untuk Pesan</a>
-                        @endauth
+                            <span class="flex-1 text-center bg-slate-100 text-slate-400 rounded-lg py-2 text-sm">Khusus Pembeli</span>
+                        @endguest
                     </div>
                 </div>
             </div>
