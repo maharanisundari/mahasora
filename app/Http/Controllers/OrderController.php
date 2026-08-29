@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notification;
 use App\Models\Order;
 use App\Models\OrderStatus;
 use App\Models\Service;
@@ -54,6 +55,24 @@ class OrderController extends Controller
             'created_at' => now(),
         ]);
 
+        // Notify all admins about new order
+        $admins = User::where('role', 'admin')->get();
+        foreach ($admins as $admin) {
+            Notification::create([
+                'notifiable_id' => $admin->id,
+                'notifiable_type' => User::class,
+                'type' => 'new_order',
+                'data' => [
+                    'order_id' => $order->id,
+                    'order_code' => $order->order_code,
+                    'customer_name' => $order->user->name,
+                    'service_name' => $service->service_name,
+                    'total_price' => $order->total_price,
+                    'message' => "Pesanan baru {$order->order_code} dari {$order->user->name}",
+                ],
+            ]);
+        }
+
         return redirect()->route('orders.my')->with('success', 'Pesanan berhasil dibuat: ' . $order->order_code . ' — DP 50% ('.number_format($service->price*0.5,0,',','.').') wajib dibayar sebelum diproses. Metode: '.$request->payment_method);
     }
 
@@ -100,6 +119,25 @@ class OrderController extends Controller
             'updated_by' => Auth::id(),
             'created_at' => now(),
         ]);
+
+        // Notify all admins about new offline order
+        $admins = User::where('role', 'admin')->get();
+        foreach ($admins as $admin) {
+            Notification::create([
+                'notifiable_id' => $admin->id,
+                'notifiable_type' => User::class,
+                'type' => 'new_order',
+                'data' => [
+                    'order_id' => $order->id,
+                    'order_code' => $order->order_code,
+                    'customer_name' => $order->user->name,
+                    'service_name' => $service->service_name,
+                    'total_price' => $order->total_price,
+                    'message' => "Pesanan offline baru {$order->order_code} untuk {$order->user->name}",
+                ],
+            ]);
+        }
+
         return redirect()->route('admin.orders.index')->with('success', 'Pesanan offline berhasil dibuat: ' . $order->order_code);
     }
 
@@ -170,6 +208,20 @@ class OrderController extends Controller
             'updated_by' => Auth::id(),
             'created_at' => now(),
         ]);
+
+        // Notify customer about order status update
+        Notification::create([
+            'notifiable_id' => $order->user_id,
+            'notifiable_type' => User::class,
+            'type' => 'order_status_update',
+            'data' => [
+                'order_id' => $order->id,
+                'order_code' => $order->order_code,
+                'status' => $request->status,
+                'message' => "Status pesanan {$order->order_code} diperbarui menjadi: {$request->status}",
+            ],
+        ]);
+
         return back()->with('success', 'Status diperbarui ke ' . $request->status);
     }
 
@@ -179,6 +231,20 @@ class OrderController extends Controller
             'payment_status' => 'required|in:belum_bayar,dp_50,lunas',
         ]);
         $order->update(['payment_status' => $request->payment_status]);
+
+        // Notify customer about payment status update
+        Notification::create([
+            'notifiable_id' => $order->user_id,
+            'notifiable_type' => User::class,
+            'type' => 'order_status_update',
+            'data' => [
+                'order_id' => $order->id,
+                'order_code' => $order->order_code,
+                'payment_status' => $request->payment_status,
+                'message' => "Status pembayaran pesanan {$order->order_code} diperbarui menjadi: {$request->payment_status}",
+            ],
+        ]);
+
         return back()->with('success', 'Status pembayaran diperbarui ke ' . $request->payment_status);
     }
 }

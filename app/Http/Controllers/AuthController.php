@@ -43,9 +43,21 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|confirmed|min:6',
-            'phone' => 'nullable|string|max:20',
+            'password' => [
+                'required',
+                'confirmed',
+                'min:8',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*#?&]/',
+            ],
+            'phone' => 'required|string|max:20|unique:users,phone',
             'address' => 'nullable|string',
+        ], [
+            'password.min' => 'Password minimal 8 karakter.',
+            'password.regex' => 'Password harus mengandung huruf besar, angka, dan simbol (@$!%*#?&).',
+            'phone.required' => 'Nomor telepon/WhatsApp wajib diisi.',
+            'phone.unique' => 'Nomor telepon ini sudah terdaftar. Silakan gunakan nomor lain.',
         ]);
 
         $user = User::create([

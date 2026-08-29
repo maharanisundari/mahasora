@@ -20,11 +20,22 @@ class ProfileController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'phone' => 'nullable|string|max:20',
+            'phone' => 'nullable|string|max:20|unique:users,phone,' . $user->id,
             'address' => 'nullable|string',
             'bio' => 'nullable|string',
             'avatar' => 'nullable|image|max:2048',
-            'password' => 'nullable|min:6|confirmed',
+            'password' => [
+                'nullable',
+                'min:8',
+                'confirmed',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*#?&]/',
+            ],
+        ], [
+            'password.min' => 'Password minimal 8 karakter.',
+            'password.regex' => 'Password harus mengandung huruf besar, angka, dan simbol (@$!%*#?&).',
+            'phone.unique' => 'Nomor telepon ini sudah terdaftar. Silakan gunakan nomor lain.',
         ]);
 
         $data = $request->only('name', 'email', 'phone', 'address', 'bio');

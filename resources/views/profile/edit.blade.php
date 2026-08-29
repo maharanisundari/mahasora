@@ -27,8 +27,11 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <label class="text-sm font-medium">Phone / WA</label>
-                <input type="text" name="phone" value="{{ old('phone',$user->phone) }}" class="w-full border rounded-lg px-3 py-2 mt-1">
+                <label class="text-sm font-medium">Phone / WA <span class="text-red-500">*</span></label>
+                <input type="text" name="phone" value="{{ old('phone',$user->phone) }}" required class="w-full border rounded-lg px-3 py-2 mt-1">
+                @error('phone')
+                    <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
+                @enderror
             </div>
             <div>
                 <label class="text-sm font-medium">Role</label>
@@ -45,12 +48,19 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <label class="text-sm font-medium">Password Baru (kosongkan jika tidak ganti)</label>
+                <label class="text-sm font-medium">Password Baru (kosongkan jika tidak ganti) <span class="text-red-500">*</span></label>
                 <input type="password" name="password" class="w-full border rounded-lg px-3 py-2 mt-1">
+                @error('password')
+                    <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
+                @enderror
+                <p class="text-xs text-stone-500 mt-1">Minimal 8 karakter, harus ada huruf besar, angka, dan simbol (@$!%*#?&)</p>
             </div>
             <div>
                 <label class="text-sm font-medium">Konfirmasi Password</label>
                 <input type="password" name="password_confirmation" class="w-full border rounded-lg px-3 py-2 mt-1">
+                @error('password_confirmation')
+                    <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
+                @enderror
             </div>
         </div>
         <button class="w-full bg-amber-600 text-white py-2.5 rounded-lg font-semibold hover:bg-amber-700">Simpan Profil</button>

@@ -39,7 +39,7 @@
                         <a href="{{ route('register') }}" class="text-sm px-4 py-2 bg-amber-800 text-white rounded-lg hover:bg-amber-900">Daftar</a>
                     @else
                         <div class="relative group">
-                            <button class="flex items-center gap-2 text-sm">
+                            <button class="flex items-center gap-2 text-sm relative">
                                 @if(auth()->user()->avatar)
                                     <img src="{{ asset('storage/'.auth()->user()->avatar) }}" class="w-8 h-8 rounded-full object-cover">
                                 @else
@@ -47,18 +47,36 @@
                                 @endif
                                 <span class="hidden sm:inline">{{ auth()->user()->name }}</span>
                                 <span class="text-xs">▼</span>
+                                @php
+                                    $notifType = auth()->user()->role === 'admin' ? 'new_order' : 'order_status_update';
+                                    $unreadCount = auth()->user()->unreadNotifications()->where('type', $notifType)->count();
+                                @endphp
+                                @if($unreadCount > 0)
+                                    <span class="absolute -top-1 -right-1 w-5 h-5 bg-red-600 text-white text-xs rounded-full flex items-center justify-center">{{ $unreadCount }}</span>
+                                @endif
                             </button>
-                            <div class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg border border-amber-100 hidden group-hover:block">
-                                <div class="p-3 text-xs text-stone-500 border-b">
-                                    {{ auth()->user()->email }}<br>
-                                    <span class="inline-block mt-1 px-2 py-0.5 bg-{{ auth()->user()->role==='admin'?'amber':'emerald' }}-100 text-{{ auth()->user()->role==='admin'?'amber':'emerald' }}-700 rounded-full">{{ auth()->user()->role }}</span>
+                            <div class="absolute right-0 mt-2 w-72 bg-white shadow-lg rounded-lg border border-amber-100 hidden group-hover:block z-50">
+                                <div class="p-3 text-xs text-stone-500 border-b flex justify-between items-center">
+                                    <span>{{ auth()->user()->email }}<br>
+                                    <span class="inline-block mt-1 px-2 py-0.5 bg-{{ auth()->user()->role==='admin'?'amber':'emerald' }}-100 text-{{ auth()->user()->role==='admin'?'amber':'emerald' }}-700 rounded-full">{{ auth()->user()->role }}</span></span>
                                 </div>
                                 <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm hover:bg-amber-50">Profil</a>
                                 @if(auth()->user()->role==='admin')
                                     <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-sm hover:bg-amber-50">Dashboard</a>
                                     <a href="{{ route('admin.services.index') }}" class="block px-4 py-2 text-sm hover:bg-amber-50">Layanan</a>
                                     <a href="{{ route('admin.customers.index') }}" class="block px-4 py-2 text-sm hover:bg-amber-50">Pelanggan</a>
-                                    <a href="{{ route('admin.orders.index') }}" class="block px-4 py-2 text-sm hover:bg-amber-50">Monitoring Pesanan</a>
+                                    <a href="{{ route('admin.orders.index') }}" class="block px-4 py-2 text-sm hover:bg-amber-50 flex justify-between items-center">
+                                        Monitoring Pesanan
+                                        @php $c = auth()->user()->unreadNotifications()->where('type', 'new_order')->count(); @endphp
+                                        @if($c > 0)<span class="px-2 py-0.5 text-xs bg-red-600 text-white rounded-full">{{ $c }}</span>@endif
+                                    </a>
+                                @else
+                                    <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-sm hover:bg-amber-50 flex justify-between items-center">
+                                        Dashboard
+                                        @php $c = auth()->user()->unreadNotifications()->where('type', 'order_status_update')->count(); @endphp
+                                        @if($c > 0)<span class="px-2 py-0.5 text-xs bg-red-600 text-white rounded-full">{{ $c }}</span>@endif
+                                    </a>
+                                    <a href="{{ route('orders.my') }}" class="block px-4 py-2 text-sm hover:bg-amber-50">Pesanan Saya</a>
                                 @endif
                                 <form method="POST" action="{{ route('logout') }}" class="border-t">
                                     @csrf
