@@ -9,7 +9,7 @@
             @if($user->avatar)
                 <img src="{{ asset('storage/'.$user->avatar) }}" class="w-20 h-20 rounded-full object-cover">
             @else
-                <div class="w-20 h-20 rounded-full bg-indigo-100 flex items-center justify-center text-2xl font-bold text-indigo-700">{{ substr($user->name,0,1) }}</div>
+                <div class="w-20 h-20 rounded-full bg-amber-100 flex items-center justify-center text-2xl font-bold text-amber-700">{{ substr($user->name,0,1) }}</div>
             @endif
             <div>
                 <label class="text-sm font-medium">Foto Profil</label>
@@ -53,7 +53,7 @@
                 <input type="password" name="password_confirmation" class="w-full border rounded-lg px-3 py-2 mt-1">
             </div>
         </div>
-        <button class="w-full bg-indigo-600 text-white py-2.5 rounded-lg font-semibold hover:bg-indigo-700">Simpan Profil</button>
+        <button class="w-full bg-amber-600 text-white py-2.5 rounded-lg font-semibold hover:bg-amber-700">Simpan Profil</button>
     </form>
 </div>
 @endsection

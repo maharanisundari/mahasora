@@ -3,7 +3,7 @@
 @section('admin-content')
 <div class="flex justify-between items-center mb-6">
     <h1 class="text-xl font-bold">Monitoring Pesanan</h1>
-    <a href="{{ route('admin.orders.create') }}" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-indigo-700">Input Pesanan Offline</a>
+    <a href="{{ route('admin.orders.create') }}" class="bg-amber-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-amber-700">Input Pesanan Offline</a>
 </div>
 
 <form method="GET" class="bg-white shadow rounded-xl p-4 mb-4 grid grid-cols-1 md:grid-cols-4 gap-3">
@@ -44,7 +44,7 @@
                                 @elseif($st==='selesai') bg-emerald-100 text-emerald-700
                                 @else bg-red-100 text-red-700 @endif">{{ ucfirst($st) }}</span>
                         </td>
-                        <td class="px-4 py-3 text-center"><a href="{{ route('admin.orders.show',$o) }}" class="text-indigo-600 hover:underline text-xs border px-3 py-1 rounded">Detail</a></td>
+                        <td class="px-4 py-3 text-center"><a href="{{ route('admin.orders.show',$o) }}" class="text-amber-600 hover:underline text-xs border px-3 py-1 rounded">Detail</a></td>
                     </tr>
                 @empty
                     <tr><td colspan="7" class="text-center py-8 text-slate-500">Tidak ada pesanan</td></tr>

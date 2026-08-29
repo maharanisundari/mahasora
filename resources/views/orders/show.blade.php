@@ -2,7 +2,7 @@
 @section('title','Detail Pesanan '.$order->order_code)
 @section('content')
 <div class="max-w-3xl mx-auto">
-    <a href="{{ route('orders.my') }}" class="text-sm text-slate-500 hover:text-indigo-600">← Kembali</a>
+    <a href="{{ route('orders.my') }}" class="text-sm text-slate-500 hover:text-amber-600">← Kembali</a>
     <div class="bg-white shadow rounded-xl overflow-hidden mt-4">
         <div class="p-6 border-b">
             <div class="flex justify-between items-start">
@@ -23,7 +23,7 @@
                 <h3 class="font-bold text-sm text-slate-500 uppercase">Layanan</h3>
                 <p class="font-semibold">{{ $order->service->service_name }}</p>
                 <p class="text-sm text-slate-600">{{ $order->service->description }}</p>
-                <p class="font-bold text-indigo-600 mt-2">Rp {{ number_format($order->total_price,0,',','.') }}</p>
+                <p class="font-bold text-amber-600 mt-2">Rp {{ number_format($order->total_price,0,',','.') }}</p>
             </div>
             <div>
                 <h3 class="font-bold text-sm text-slate-500 uppercase">Pelanggan</h3>

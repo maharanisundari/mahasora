@@ -5,7 +5,7 @@
     <div class="flex justify-between items-center mb-6">
         <div>
             <h1 class="text-xl font-bold">Edit Info Toko — MahaSora</h1>
-            <p class="text-sm text-slate-500">Hanya admin yang bisa mengedit. Pembeli & guest hanya lihat di <a href="{{ route('store.show') }}" class="text-indigo-600 underline">/toko</a>.</p>
+            <p class="text-sm text-slate-500">Hanya admin yang bisa mengedit. Pembeli & guest hanya lihat di <a href="{{ route('store.show') }}" class="text-amber-600 underline">/toko</a>.</p>
         </div>
         <a href="{{ route('store.show') }}" class="text-sm border px-4 py-2 rounded-lg hover:bg-slate-50">Lihat sebagai Pembeli</a>
     </div>
@@ -20,7 +20,7 @@
                     <img src="{{ asset('storage/'.$store->logo) }}" class="w-20 h-20 rounded-xl object-cover border">
                     <span class="text-xs text-slate-500">Logo saat ini — upload baru untuk mengganti</span>
                 @else
-                    <div class="w-20 h-20 rounded-xl bg-indigo-100 flex items-center justify-center font-bold text-indigo-700">MS</div>
+                    <div class="w-20 h-20 rounded-xl bg-amber-100 flex items-center justify-center font-bold text-amber-700">MS</div>
                     <span class="text-xs text-slate-500">Belum ada logo — silakan upload</span>
                 @endif
             </div>
@@ -77,7 +77,7 @@
         </div>
 
         <div class="flex gap-3 pt-2">
-            <button class="bg-indigo-600 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-indigo-700">Simpan Info Toko</button>
+            <button class="bg-amber-600 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-amber-700">Simpan Info Toko</button>
             <a href="{{ route('store.show') }}" class="border px-6 py-2.5 rounded-lg hover:bg-slate-50">Batal</a>
         </div>
     </form>

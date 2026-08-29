@@ -14,7 +14,7 @@
                     <option value="{{ $c->id }}">{{ $c->name }} — {{ $c->email }} ({{ $c->phone }})</option>
                 @endforeach
             </select>
-            <p class="text-xs text-slate-500 mt-1">Jika belum terdaftar, <a href="{{ route('admin.customers.create') }}" class="text-indigo-600 underline">input profil pelanggan dulu</a>.</p>
+            <p class="text-xs text-slate-500 mt-1">Jika belum terdaftar, <a href="{{ route('admin.customers.create') }}" class="text-amber-600 underline">input profil pelanggan dulu</a>.</p>
         </div>
         <div>
             <label class="text-sm font-medium">Layanan *</label>
@@ -35,7 +35,7 @@
             <label class="text-sm font-medium">Catatan</label>
             <textarea name="notes" rows="3" placeholder="Catatan pesanan offline..." class="w-full border rounded-lg px-3 py-2 mt-1"></textarea>
         </div>
-        <button class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 w-full font-semibold">Simpan Pesanan & Terbitkan Kode TRX</button>
+        <button class="bg-amber-600 text-white px-6 py-2 rounded-lg hover:bg-amber-700 w-full font-semibold">Simpan Pesanan & Terbitkan Kode TRX</button>
     </form>
 </div>
 @endsection

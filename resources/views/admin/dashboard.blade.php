@@ -4,7 +4,7 @@
 <h1 class="text-xl font-bold mb-6">Ringkasan Informasi</h1>
 
 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-    <div class="bg-white rounded-xl shadow p-5 border-l-4 border-indigo-500">
+    <div class="bg-white rounded-xl shadow p-5 border-l-4 border-amber-500">
         <p class="text-sm text-slate-500">Total Pesanan</p>
         <p class="text-2xl font-bold">{{ $totalOrders }}</p>
         <p class="text-xs text-slate-400 mt-1">Semua transaksi</p>
@@ -19,7 +19,7 @@
         <p class="text-2xl font-bold">{{ $totalCustomers }}</p>
         <p class="text-xs text-slate-400 mt-1">Role customer</p>
     </div>
-    <div class="bg-white rounded-xl shadow p-5 border-l-4 border-violet-500">
+    <div class="bg-white rounded-xl shadow p-5 border-l-4 border-amber-500">
         <p class="text-sm text-slate-500">Total Layanan</p>
         <p class="text-2xl font-bold">{{ $totalServices }}</p>
         <p class="text-xs text-slate-400 mt-1">Jasa tersedia</p>
@@ -35,7 +35,7 @@
                 <div class="flex items-center gap-3 text-sm">
                     <span class="w-16 text-slate-500">{{ $label }}</span>
                     <div class="flex-1 bg-slate-100 rounded-full h-5 overflow-hidden">
-                        <div class="bg-indigo-600 h-5 flex items-center justify-end pr-2 text-white text-xs font-semibold" style="width: {{ ($data[$i]/$max)*100 }}%">
+                        <div class="bg-amber-600 h-5 flex items-center justify-end pr-2 text-white text-xs font-semibold" style="width: {{ ($data[$i]/$max)*100 }}%">
                             {{ $data[$i] }}
                         </div>
                     </div>
@@ -79,7 +79,7 @@
 <div class="bg-white rounded-xl shadow overflow-hidden">
     <div class="p-4 border-b flex justify-between items-center">
         <h3 class="font-bold">Pesanan Terbaru</h3>
-        <a href="{{ route('admin.orders.index') }}" class="text-sm text-indigo-600 hover:underline">Lihat Semua</a>
+        <a href="{{ route('admin.orders.index') }}" class="text-sm text-amber-600 hover:underline">Lihat Semua</a>
     </div>
     <div class="overflow-x-auto">
         <table class="w-full text-sm">

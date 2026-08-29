@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('title','Detail Pesanan '.$order->order_code)
 @section('admin-content')
-<a href="{{ route('admin.orders.index') }}" class="text-sm text-slate-500 hover:text-indigo-600">← Kembali</a>
+<a href="{{ route('admin.orders.index') }}" class="text-sm text-slate-500 hover:text-amber-600">← Kembali</a>
 <div class="bg-white shadow rounded-xl overflow-hidden mt-4">
     <div class="p-6 border-b flex justify-between">
         <div><h1 class="text-xl font-bold font-mono">{{ $order->order_code }}</h1><p class="text-sm text-slate-500">{{ $order->created_at->format('d M Y H:i') }} • {{ $order->order_type }} • Rp {{ number_format($order->total_price,0,',','.') }}</p></div>
@@ -27,7 +27,7 @@
                     <option value="{{ $s }}" @selected($st===$s)>{{ ucfirst($s) }}</option>
                 @endforeach
             </select>
-            <button class="bg-indigo-600 text-white px-6 rounded-lg hover:bg-indigo-700">Perbarui</button>
+            <button class="bg-amber-600 text-white px-6 rounded-lg hover:bg-amber-700">Perbarui</button>
         </form>
 
         <h3 class="font-bold mb-3">Riwayat Progres</h3>

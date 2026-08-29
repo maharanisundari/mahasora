@@ -2,7 +2,7 @@
 @section('title', $service->service_name)
 @section('content')
 <div class="max-w-4xl mx-auto">
-    <a href="{{ route('catalog.index') }}" class="text-sm text-slate-500 hover:text-indigo-600">← Kembali ke Katalog</a>
+    <a href="{{ route('catalog.index') }}" class="text-sm text-slate-500 hover:text-amber-600">← Kembali ke Katalog</a>
     <div class="bg-white rounded-xl shadow overflow-hidden mt-4">
         <div class="h-64 bg-slate-100 flex items-center justify-center overflow-hidden">
             @if($service->image)
@@ -13,13 +13,13 @@
         </div>
         <div class="p-6">
             <h1 class="text-2xl font-bold">{{ $service->service_name }}</h1>
-            <p class="text-indigo-600 font-bold text-xl mt-2">Rp {{ number_format($service->price,0,',','.') }}</p>
+            <p class="text-amber-600 font-bold text-xl mt-2">Rp {{ number_format($service->price,0,',','.') }}</p>
             <div class="prose prose-sm max-w-none mt-4 text-slate-600 whitespace-pre-line">{{ $service->description }}</div>
             <div class="mt-8 flex gap-3">
                 @guest
-                    <a href="{{ route('login') }}" class="bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700">Login untuk Memesan</a>
+                    <a href="{{ route('login') }}" class="bg-amber-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-amber-700">Login untuk Memesan</a>
                 @elseif(auth()->user()->role==='customer')
-                    <a href="{{ route('orders.checkout',$service) }}" class="bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700">Pesan Sekarang</a>
+                    <a href="{{ route('orders.checkout',$service) }}" class="bg-amber-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-amber-700">Pesan Sekarang</a>
                 @else
                     <span class="bg-slate-100 text-slate-500 px-8 py-3 rounded-lg">Admin kelola via Dashboard</span>
                 @endif

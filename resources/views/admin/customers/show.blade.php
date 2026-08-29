@@ -6,10 +6,10 @@
         @if($customer->avatar)
             <img src="{{ asset('storage/'.$customer->avatar) }}" class="w-24 h-24 rounded-full object-cover">
         @else
-            <div class="w-24 h-24 rounded-full bg-indigo-100 flex items-center justify-center text-3xl font-bold text-indigo-700">{{ substr($customer->name,0,1) }}</div>
+            <div class="w-24 h-24 rounded-full bg-amber-100 flex items-center justify-center text-3xl font-bold text-amber-700">{{ substr($customer->name,0,1) }}</div>
         @endif
         <div>
-            <h1 class="text-xl font-bold">{{ $customer->name }} <span class="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full">{{ $customer->role }}</span></h1>
+            <h1 class="text-xl font-bold">{{ $customer->name }} <span class="text-xs bg-amber-100 text-amber-700 px-2 py-1 rounded-full">{{ $customer->role }}</span></h1>
             <p class="text-sm text-slate-500">{{ $customer->email }} • {{ $customer->phone ?? '-' }}</p>
             <p class="text-sm text-slate-600 mt-1">{{ $customer->address ?? '-' }}</p>
             <p class="text-sm mt-1">{{ $customer->bio ?? '-' }}</p>

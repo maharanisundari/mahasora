@@ -3,7 +3,7 @@
 @section('admin-content')
 <div class="flex justify-between items-center mb-6">
     <h1 class="text-xl font-bold">Manajemen Pelanggan</h1>
-    <a href="{{ route('admin.customers.create') }}" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-indigo-700">+ Tambah Pelanggan Manual</a>
+    <a href="{{ route('admin.customers.create') }}" class="bg-amber-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-amber-700">+ Tambah Pelanggan Manual</a>
 </div>
 <form method="GET" class="bg-white shadow rounded-xl p-4 mb-4 flex gap-3">
     <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari nama / email / phone..." class="flex-1 border rounded-lg px-3 py-2">
@@ -22,7 +22,7 @@
                             @if($c->avatar)
                                 <img src="{{ asset('storage/'.$c->avatar) }}" class="w-8 h-8 rounded-full object-cover">
                             @else
-                                <span class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center font-bold text-xs">{{ substr($c->name,0,1) }}</span>
+                                <span class="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center font-bold text-xs">{{ substr($c->name,0,1) }}</span>
                             @endif
                             <div>
                                 <p class="font-semibold">{{ $c->name }}</p>

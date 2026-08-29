@@ -3,7 +3,7 @@
 @section('admin-content')
 <div class="flex justify-between items-center mb-6">
     <h1 class="text-xl font-bold">Manajemen Layanan</h1>
-    <a href="{{ route('admin.services.create') }}" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-indigo-700">+ Tambah Layanan</a>
+    <a href="{{ route('admin.services.create') }}" class="bg-amber-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-amber-700">+ Tambah Layanan</a>
 </div>
 
 <form method="GET" class="bg-white shadow rounded-xl p-4 mb-4 flex gap-3">
@@ -30,7 +30,7 @@
                         <td class="px-4 py-3">Rp {{ number_format($s->price,0,',','.') }}</td>
                         <td class="px-4 py-3 text-slate-500 max-w-xs truncate">{{ $s->description }}</td>
                         <td class="px-4 py-3 text-center flex justify-center gap-2">
-                            <a href="{{ route('catalog.show',$s) }}" class="text-slate-500 hover:text-indigo-600 text-xs border px-2 py-1 rounded">Lihat</a>
+                            <a href="{{ route('catalog.show',$s) }}" class="text-slate-500 hover:text-amber-600 text-xs border px-2 py-1 rounded">Lihat</a>
                             <a href="{{ route('admin.services.edit',$s) }}" class="text-blue-600 hover:underline text-xs border px-2 py-1 rounded">Edit</a>
                             <form method="POST" action="{{ route('admin.services.destroy',$s) }}" onsubmit="return confirm('Hapus layanan ini?')">
                                 @csrf @method('DELETE')

@@ -19,7 +19,7 @@
             @if($customer->avatar)<img src="{{ asset('storage/'.$customer->avatar) }}" class="w-20 h-20 rounded-full object-cover mb-2">@endif
             <input type="file" name="avatar" class="w-full border rounded-lg px-3 py-2 mt-1">
         </div>
-        <button class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700">Update</button>
+        <button class="bg-amber-600 text-white px-6 py-2 rounded-lg hover:bg-amber-700">Update</button>
         <a href="{{ route('admin.customers.index') }}" class="border px-6 py-2 rounded-lg">Batal</a>
     </form>
 </div>

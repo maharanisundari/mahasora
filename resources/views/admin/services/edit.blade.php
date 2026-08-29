@@ -25,7 +25,7 @@
             <input type="file" name="image" class="w-full border rounded-lg px-3 py-2 mt-1">
         </div>
         <div class="flex gap-2">
-            <button class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700">Update</button>
+            <button class="bg-amber-600 text-white px-6 py-2 rounded-lg hover:bg-amber-700">Update</button>
             <a href="{{ route('admin.services.index') }}" class="border px-6 py-2 rounded-lg">Batal</a>
         </div>
     </form>

@@ -3,18 +3,18 @@
 @section('content')
 <div class="max-w-5xl mx-auto">
     <div class="bg-white rounded-xl shadow overflow-hidden">
-        <div class="bg-gradient-to-r from-indigo-600 to-violet-600 p-8 text-white flex flex-col md:flex-row gap-6 items-center">
+        <div class="bg-gradient-to-r from-amber-800 to-stone-700 p-8 text-white flex flex-col md:flex-row gap-6 items-center">
             @if($store->logo)
                 <img src="{{ asset('storage/'.$store->logo) }}" alt="Logo {{ $store->store_name }}" class="w-24 h-24 rounded-xl bg-white object-cover border-4 border-white/30 shrink-0" style="width:96px;height:96px;object-fit:cover;">
             @else
-                <div class="w-24 h-24 rounded-xl bg-white text-indigo-600 flex items-center justify-center text-3xl font-bold shrink-0" style="width:96px;height:96px;">MS</div>
+                <div class="w-24 h-24 rounded-xl bg-white text-amber-600 flex items-center justify-center text-3xl font-bold shrink-0" style="width:96px;height:96px;">MS</div>
             @endif
             <div>
                 <h1 class="text-3xl font-bold">{{ $store->store_name }}</h1>
-                <p class="text-indigo-100 mt-1">TeFa RPL SMKN 1 Katapang — Sistem Pemesanan Layanan</p>
+                <p class="text-amber-100 mt-1"> — Sistem Pemesanan Layanan</p>
                 @auth
                     @if(auth()->user()->role==='admin')
-                        <a href="{{ route('admin.store.edit') }}" class="inline-block mt-3 bg-white text-indigo-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-slate-100">Edit Info Toko (Admin)</a>
+                        <a href="{{ route('admin.store.edit') }}" class="inline-block mt-3 bg-white text-amber-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-slate-100">Edit Info Toko (Admin)</a>
                     @endif
                 @endauth
             </div>
@@ -66,7 +66,7 @@
     </div>
 
     <div class="mt-6 text-center">
-        <a href="{{ route('catalog.index') }}" class="text-sm text-indigo-600 hover:underline">← Kembali ke Katalog MahaSora</a>
+        <a href="{{ route('catalog.index') }}" class="text-sm text-amber-600 hover:underline">← Kembali ke Katalog MahaSora</a>
     </div>
 </div>
 @endsection

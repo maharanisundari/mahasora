@@ -14,7 +14,7 @@
             <option value="{{ $st }}" @selected(request('status')==$st)>{{ ucfirst($st) }}</option>
         @endforeach
     </select>
-    <button class="bg-indigo-600 text-white px-6 rounded-lg">Filter</button>
+    <button class="bg-amber-600 text-white px-6 rounded-lg">Filter</button>
 </form>
 
 <div class="bg-white shadow rounded-xl overflow-hidden">
@@ -47,7 +47,7 @@
                                 @else bg-red-100 text-red-700 @endif">{{ ucfirst($st) }}</span>
                         </td>
                         <td class="px-4 py-3 text-xs">{{ $o->created_at->format('d/m/Y H:i') }}</td>
-                        <td class="px-4 py-3 text-center"><a href="{{ route('orders.myShow',$o) }}" class="text-indigo-600 hover:underline">Detail</a></td>
+                        <td class="px-4 py-3 text-center"><a href="{{ route('orders.myShow',$o) }}" class="text-amber-600 hover:underline">Detail</a></td>
                     </tr>
                 @empty
                     <tr><td colspan="7" class="text-center py-12 text-slate-500">Belum ada pesanan. Mulai dari katalog!</td></tr>
