@@ -1,0 +1,87 @@
+# Dokumen Konsep Sistem & Perencanaan Proyek
+## Seleksi Teaching Factory (TeFa) - Kompetensi Keahlian RPL SMKN 1 Katapang
+**Judul Proyek:** Sistem Pemesanan Layanan Berbasis Web (NusantaraStore)  
+**Tech Stack:** Laravel, MySQL, Blade Template Engine, Tailwind CSS  
+
+---
+
+### 1. Analisis Kebutuhan Sistem
+Agar sistem benar-benar berguna dan membantu pemilik usaha beralih dari cara manual ke digital, aplikasi ini dirancang dengan modul utama berikut:
+* **Manajemen Layanan:** Admin dapat menambah, mengubah, menghapus, melihat daftar seluruh layanan, serta melihat detail setiap jasa yang ditawarkan.
+* **Manajemen Pelanggan:** Mengelola profil dan informasi lengkap pelanggan (nama, email, nomor WhatsApp/HP, alamat, foto profil, bio, status pelanggan, hingga riwayat transaksi). Admin maupun pelanggan dapat memperbarui profil, serta admin dapat menambah atau menghapus data pelanggan secara manual.
+* **Transaksi Pemesanan:** Pelanggan memilih layanan di katalog dan mengisi form checkout. Sistem secara otomatis menghitung total biaya, menyimpan detail pesanan, menerbitkan kode transaksi unik, dan menset status awal menjadi **Pending**. Admin juga dapat menginput pesanan manual untuk transaksi offline/WhatsApp.
+* **Monitoring & Detail:** Admin dapat melihat daftar pesanan masuk dan melihat rincian detailnya. Pelanggan dapat membuka menu "Pesanan Saya" untuk melihat riwayat dan rincian belanja mereka.
+* **Status Pemesanan:** Admin dapat memperbarui status pengerjaan secara berkala mulai dari *Pending*, *Diproses*, hingga *Selesai*.
+* **Pencarian & Filter:** Fasilitas pencarian dan penyaringan data pesanan berdasarkan status, serta pencarian layanan yang dibutuhkan.
+* **Ringkasan Informasi:** Dashboard admin yang menyajikan rangkuman angka dan grafik visual aktivitas bisnis (total pesanan, rekap status, total pendapatan, dan jumlah pelanggan).
+
+---
+
+### 2. Alur Sistem (Flowchart)
+
+#### A. Alur Pelanggan (Pemesanan & Pelacakan Online)
+* **Mulai** $\rightarrow$ Buka Website TeFa $\rightarrow$ Cek Status Login? (Jika belum $\rightarrow$ **Form Login**, jika sudah $\rightarrow$ lanjut) $\rightarrow$ Cari & Pilih Layanan $\rightarrow$ Isi Form Checkout $\rightarrow$ *Sistem memproses (Hitung total biaya, terbitkan kode transaksi, set status "Pending", simpan ke database)* $\rightarrow$ Tampilkan menu **"Pesanan Saya"** $\rightarrow$ **Selesai**.
+
+#### B. Alur Admin (Input Pesanan Offline / WhatsApp)
+* **Mulai** $\rightarrow$ Admin Login & Buka Dashboard $\rightarrow$ Terima Pesanan Offline/WA $\rightarrow$ Cek Pelanggan Terdaftar? (Jika belum $\rightarrow$ **Input Profil Pelanggan**, jika sudah $\rightarrow$ lanjut) $\rightarrow$ Input Transaksi Pemesanan $\rightarrow$ *Set status "Pending" & Simpan ke DB* $\rightarrow$ **Selesai**.
+
+#### C. Alur Admin (Pengelolaan & Update Status)
+* **Mulai** $\rightarrow$ Admin Login ke Dashboard $\rightarrow$ Tampilkan Ringkasan Informasi $\rightarrow$ Pilih Menu Pengelolaan (Layanan / Pelanggan / Monitoring) $\rightarrow$ Lakukan Aksi (Tambah/Edit/Hapus atau Update Status *Pending $\rightarrow$ Diproses $\rightarrow$ Selesai*) $\rightarrow$ Tampilkan Hasil Pembaruan $\rightarrow$ **Selesai**.
+
+---
+
+### 3. Perancangan Basis Data (ERD / Schema Database)
+
+* **Tabel `users` (Data Pelanggan & Admin)**
+  * `id` (PK, BigInt, Auto Increment)
+  * `name` (Varchar 255)
+  * `email` (Varchar 255, Unique)
+  * `password` (Varchar 255)
+  * `phone` (Varchar 20) — Nomor WhatsApp/HP
+  * `address` (Text) — Alamat lengkap
+  * `role` (Enum: 'admin', 'customer')
+  * `timestamps`
+
+* **Tabel `services` (Manajemen Layanan/Jasa)**
+  * `id` (PK, BigInt, Auto Increment)
+  * `service_name` (Varchar 255)
+  * `description` (Text)
+  * `price` (Decimal 12,2)
+  * `timestamps`
+
+* **Tabel `orders` (Transaksi Pemesanan)**
+  * `id` (PK, BigInt, Auto Increment)
+  * `order_code` (Varchar 50, Unique) — Contoh: TRX-20260823-001
+  * `user_id` (FK $\rightarrow$ `users.id`)
+  * `service_id` (FK $\rightarrow$ `services.id`)
+  * `total_price` (Decimal 12,2)
+  * `order_type` (Enum: 'online', 'offline')
+  * `notes` (Text, Nullable)
+  * `timestamps`
+
+* **Tabel `order_statuses` (Riwayat & Update Progres)**
+  * `id` (PK, BigInt, Auto Increment)
+  * `order_id` (FK $\rightarrow$ `orders.id`)
+  * `status` (Enum: 'pending', 'diproses', 'selesai', 'dibatalkan')
+  * `updated_by` (FK $\rightarrow$ `users.id`)
+  * `created_at`
+
+**Relasi ERD:**
+* `users` (1) $\rightarrow$ `orders` (N) — Satu user dapat memiliki banyak pesanan.
+* `services` (1) $\rightarrow$ `orders` (N) — Satu layanan dapat dipakai di banyak pesanan.
+* `orders` (1) $\rightarrow$ `order_statuses` (N) — Satu pesanan bisa memiliki riwayat beberapa kali perubahan status.
+
+---
+
+### 4. Arsitektur & Struktur Direktori Project Laravel (MVC)
+```text
+ecommerce/
+├── app/
+│   ├── Http/Controllers/ (Pengatur lalu lintas & logika request)
+│   └── Models/ (Logika database: User.php, Service.php, Order.php, dll)
+├── database/
+│   └── migrations/ (File pembuat tabel database lewat kodingan)
+├── routes/
+│   └── web.php (Daftar alamat URL & hak akses admin/pelanggan)
+└── resources/
+    └── views/ (Antarmuka Blade: Katalog, Dashboard Admin, Pesanan Saya)
