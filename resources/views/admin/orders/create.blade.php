@@ -25,11 +25,23 @@
             </select>
         </div>
         <div>
-            <label class="text-sm font-medium">Tipe Pesanan</label>
-            <select name="order_type" class="w-full border rounded-lg px-3 py-2 mt-1">
-                <option value="offline">offline (WA / Offline)</option>
-                <option value="online">online</option>
+            <label class="text-sm font-medium">Tipe Pesanan *</label>
+            <select name="order_type" required class="w-full border rounded-lg px-3 py-2 mt-1">
+                <option value="media_sosial">Media Sosial</option>
+                <option value="offline">Offline</option>
             </select>
+            <p class="text-xs text-stone-500 mt-1">Hanya 2 pilihan: Media Sosial atau Offline</p>
+        </div>
+        <div class="p-3 bg-[#FFFBF0] border border-amber-200 rounded-lg">
+            <label class="text-sm font-medium">Pengantaran *</label>
+            <div class="flex gap-4 mt-2">
+                <label class="flex items-center gap-2 text-sm"><input type="radio" name="delivery_type" value="ambil_di_toko" checked onchange="document.getElementById('alamat-antar-admin').style.display='none'"> Ambil di Toko (Gratis)</label>
+                <label class="flex items-center gap-2 text-sm"><input type="radio" name="delivery_type" value="antar" onchange="document.getElementById('alamat-antar-admin').style.display='block'"> Antar ke Pembeli (Ongkir Rp 15.000)</label>
+            </div>
+            <div id="alamat-antar-admin" style="display:none;" class="mt-3">
+                <label class="text-sm font-medium">Alamat Antar *</label>
+                <textarea name="delivery_address" rows="2" placeholder="Jl. ... Kec. ... Kota ..." class="w-full border rounded-lg px-3 py-2 mt-1"></textarea>
+            </div>
         </div>
         <div>
             <label class="text-sm font-medium">Metode Pembayaran *</label>

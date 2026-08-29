@@ -16,8 +16,8 @@
     </select>
     <select name="type" class="border rounded-lg px-3 py-2" onchange="this.form.submit()">
         <option value="">Semua Tipe</option>
-        <option value="online" @selected(request('type')=='online')>online</option>
-        <option value="offline" @selected(request('type')=='offline')>offline</option>
+        <option value="media_sosial" @selected(request('type')=='media_sosial')>Media Sosial</option>
+        <option value="offline" @selected(request('type')=='offline')>Offline</option>
     </select>
 </form>
 
@@ -34,7 +34,7 @@
                         <td class="px-4 py-3">{{ $o->user->name }}<br><span class="text-xs text-slate-500">{{ $o->user->email }}</span></td>
                         <td class="px-4 py-3">{{ $o->service->service_name }}</td>
                         <td class="px-4 py-3">Rp {{ number_format($o->total_price,0,',','.') }}</td>
-                        <td class="px-4 py-3"><span class="px-2 py-1 rounded-full text-xs {{ $o->order_type==='online'?'bg-blue-100 text-blue-700':'bg-amber-100 text-amber-700' }}">{{ $o->order_type }}</span></td>
+                        <td class="px-4 py-3"><span class="px-2 py-1 rounded-full text-xs {{ $o->order_type==='media_sosial'?'bg-blue-100 text-blue-700':'bg-amber-100 text-amber-700' }}">{{ str_replace('_',' ', $o->order_type) }}</span></td>
                         <td class="px-4 py-3">
                             <span class="text-xs">{{ str_replace('_',' ',ucfirst($o->payment_method ?? '-')) }}</span><br>
                             <span class="px-1.5 py-0.5 rounded text-[10px] font-bold @if($o->payment_status==='lunas') bg-emerald-100 text-emerald-700 @elseif($o->payment_status==='dp_50') bg-blue-100 text-blue-700 @else bg-red-100 text-red-700 @endif">{{ $o->payment_status==='belum_bayar' ? 'Belum DP' : ($o->payment_status==='dp_50' ? 'DP 50%' : 'Lunas') }}</span>

@@ -38,7 +38,7 @@ class OrderController extends Controller
             'user_id' => Auth::id(),
             'service_id' => $service->id,
             'total_price' => $total,
-            'order_type' => 'online',
+            'order_type' => 'media_sosial',
             'payment_method' => $request->payment_method,
             'payment_status' => 'belum_bayar',
             'delivery_type' => $request->delivery_type,
@@ -75,7 +75,7 @@ class OrderController extends Controller
             'delivery_type' => 'required|in:ambil_di_toko,antar',
             'delivery_address' => 'nullable|required_if:delivery_type,antar|string',
             'notes' => 'nullable|string',
-            'order_type' => 'required|in:online,offline',
+            'order_type' => 'required|in:media_sosial,offline',
         ]);
         $service = Service::findOrFail($request->service_id);
         $ongkir = $request->delivery_type === 'antar' ? 15000 : 0;
