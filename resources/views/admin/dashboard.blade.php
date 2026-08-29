@@ -43,7 +43,6 @@
                 </div>
             @endforeach
         </div>
-        <p class="text-xs text-slate-400 mt-3">Visualisasi murni Tailwind CSS (tanpa Chart.js) - data dari query database</p>
     </div>
     <div class="bg-white rounded-xl shadow p-5">
         <h3 class="font-bold mb-4">Rekap Status</h3>

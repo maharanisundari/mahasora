@@ -2,8 +2,7 @@
 @section('title','Input Pesanan Offline')
 @section('admin-content')
 <div class="max-w-2xl bg-white shadow rounded-xl p-6">
-    <h1 class="text-lg font-bold mb-2">Input Pesanan Offline / WhatsApp</h1>
-    <p class="text-sm text-slate-500 mb-6">Gunakan untuk transaksi yang diterima via WA/offline. Sistem tetap terbitkan kode TRX dan status Pending.</p>
+    <h1 class="text-lg font-bold mb-6">Input Pesanan Offline / WhatsApp</h1>
     <form method="POST" action="{{ route('admin.orders.store') }}" class="space-y-4">
         @csrf
         <div>
@@ -30,7 +29,6 @@
                 <option value="media_sosial">Media Sosial</option>
                 <option value="offline">Offline</option>
             </select>
-            <p class="text-xs text-stone-500 mt-1">Hanya 2 pilihan: Media Sosial atau Offline</p>
         </div>
         <div class="p-3 bg-[#FFFBF0] border border-amber-200 rounded-lg">
             <label class="text-sm font-medium">Pengantaran *</label>
