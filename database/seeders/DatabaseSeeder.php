@@ -16,15 +16,17 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $admin = \App\Models\User::create([
-            'name' => 'Admin Nusantara',
+            'name' => 'Admin MahaSora',
             'email' => 'admin@nusa.test',
             'password' => 'password',
             'phone' => '081234567890',
             'address' => 'Jl. Katapang No. 1, Bandung',
             'role' => 'admin',
-            'bio' => 'Administrator TeFa SMKN 1 Katapang',
+            'bio' => 'Administrator TeFa SMKN 1 Katapang - MahaSora',
             'customer_status' => 'active',
         ]);
+
+        \App\Models\StoreSetting::current();
 
         $customers = [
             ['name' => 'Budi Santoso', 'email' => 'budi@nusa.test', 'phone' => '081111111111', 'address' => 'Katapang, Bandung'],
@@ -40,7 +42,7 @@ class DatabaseSeeder extends Seeder
                 'phone' => $c['phone'],
                 'address' => $c['address'],
                 'role' => 'customer',
-                'bio' => 'Pelanggan setia NusantaraStore',
+                'bio' => 'Pelanggan setia MahaSora',
             ]);
         }
 

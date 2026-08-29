@@ -19,6 +19,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Share store info ke semua view (Blade) untuk navbar & footer
+        try {
+            if (\Illuminate\Support\Facades\Schema::hasTable('store_settings')) {
+                $store = \App\Models\StoreSetting::current();
+                \Illuminate\Support\Facades\View::share('storeInfo', $store);
+            }
+        } catch (\Throwable $e) {
+            // abaikan saat migrasi belum jalan
+        }
     }
 }

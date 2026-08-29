@@ -2,7 +2,7 @@
 @section('title','Katalog Layanan')
 @section('content')
 <div class="bg-gradient-to-r from-indigo-600 to-violet-600 rounded-2xl p-8 text-white mb-8">
-    <h1 class="text-3xl font-bold">NusantaraStore - Layanan Terbaik</h1>
+    <h1 class="text-3xl font-bold">MahaSora - Layanan Terbaik</h1>
     <p class="mt-2 text-indigo-100 max-w-2xl">Pilih layanan jasa, checkout online, dan pantau progres pesananmu. Admin juga bisa input pesanan offline/WA dengan cepat.</p>
     <form method="GET" class="mt-6 flex max-w-lg">
         <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari layanan (contoh: desain, servis...)" class="flex-1 rounded-l-lg px-4 py-3 text-slate-800 focus:outline-none">

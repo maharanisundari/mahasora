@@ -1,4 +1,4 @@
-# NusantaraStore — Sistem Pemesanan Layanan Berbasis Web
+# MahaSora — Sistem Pemesanan Layanan Berbasis Web
 **Seleksi Teaching Factory (TeFa) — Kompetensi Keahlian RPL SMKN 1 Katapang**
 
 > Client Brief: Usaha jasa dengan pencatatan manual kesulitan mengelola layanan, pelanggan, pemesanan, dan status pekerjaan. Aplikasi web terstruktur menggantikan proses manual.
@@ -15,7 +15,7 @@
 Tidak ada library/package tambahan di luar stack wajib (cek `composer.json` hanya `laravel/framework`, `laravel/tinker`; `package.json` hanya `tailwindcss`, `vite`, `laravel-vite-plugin`).
 
 ## 2. Ringkasan 7 Fitur Minimum (Poin D)
-| No | Modul | Spesifikasi Minimum (Instruksi) | Implementasi di NusantaraStore | Route / File |
+| No | Modul | Spesifikasi Minimum (Instruksi) | Implementasi di nusantarastore | Route / File |
 |---|---|---|---|---|
 | 1 | **Manajemen Layanan** | CRUD layanan (tambah, lihat, ubah, hapus) | Admin CRUD penuh + katalog publik | `GET /admin/services` (`ServiceController@index`), `GET /` katalog + `GET /services/{id}` detail (`ServiceController@catalog/show`) — `resources/views/admin/services/*`, `catalog/*` |
 | 2 | **Manajemen Pelanggan** | Mengelola profil & informasi pelanggan | Admin `users.role=customer` CRUD (nama, email, phone, address, avatar, bio, status) + pelanggan update profil sendiri | `GET /admin/customers` (`CustomerController@index`), `GET /profile` (`ProfileController@edit/update`), `resources/views/profile/edit.blade.php` |
@@ -24,6 +24,7 @@ Tidak ada library/package tambahan di luar stack wajib (cek `composer.json` hany
 | 5 | **Status Pemesanan** | Ubah & update progres pekerjaan | Enum `pending → diproses → selesai` (+ `dibatalkan`), histori `order_statuses.updated_by` | `PATCH /admin/orders/{order}/status` (`updateStatus`), `resources/views/admin/orders/show.blade.php` |
 | 6 | **Pencarian & Filter** | Cari / saring data pesanan/layanan | Layanan: `?q` (nama/deskripsi); Pesanan: `?q` (kode/nama/layanan) + `?status` + `?type` | `ServiceController@catalog/index`, `OrderController@adminIndex/myOrders` |
 | 7 | **Ringkasan Informasi** | Dashboard ringkasan | Dashboard admin: total pesanan, total pendapatan (sum `selesai`), jumlah pelanggan, total layanan, rekap status, grafik 7 hari (Tailwind bar), daftar terbaru | `GET /admin/dashboard` (`DashboardController@index`), `resources/views/admin/dashboard.blade.php` |
+| 8 | **Informasi Toko** | Deskripsi, alamat, kontak, logo — admin edit, pembeli hanya lihat | Admin edit `store_settings`; Pembeli & guest lihat `/toko` | `GET /toko` (`StoreController@show`), `GET/PUT /admin/store` (`StoreController@edit/update`) |
 
 Semua validasi input: `validate(['service_name'=>'required', 'price'=>'required|numeric', 'email'=>'required|email|unique', ...])`. Error handling: `abort(403)`, flash `session('success')`/`$errors`, `findOrFail`.
 
@@ -85,7 +86,7 @@ ecommerce/
 git clone <repo-url> "web ecommerce"
 cd "web ecommerce"
 composer install
-copy .env.example .env   # atau pakai .env yang ada (APP_NAME=NusantaraStore, DB_DATABASE=nusantarastore)
+copy .env.example .env   # atau pakai .env yang ada (APP_NAME=MahaSora, DB_DATABASE=nusantarastore)
 php artisan key:generate
 # Buat DB MySQL
 mysql -u root -e "CREATE DATABASE nusantarastore CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
@@ -122,4 +123,4 @@ php artisan serve --port=8000
 - Peserta mampu mempertanggungjawabkan tiap modul (controller `ServiceController.php:46 validate`, `Order.php:45 generateOrderCode`, `RoleMiddleware.php:11`).
 
 ---
-© 2026 NusantaraStore — TeFa RPL SMKN 1 Katapang. Dibuat dengan Laravel & Tailwind CSS.
+© 2026 MahaSora — TeFa RPL SMKN 1 Katapang. Dibuat dengan Laravel & Tailwind CSS.

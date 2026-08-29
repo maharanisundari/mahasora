@@ -2,7 +2,7 @@
 @section('title','Login')
 @section('content')
 <div class="max-w-md mx-auto bg-white shadow rounded-xl p-8 mt-6">
-    <h1 class="text-2xl font-bold text-center mb-2">Masuk ke NusantaraStore</h1>
+    <h1 class="text-2xl font-bold text-center mb-2">Masuk ke MahaSora</h1>
     <p class="text-center text-sm text-slate-500 mb-6">Gunakan akun Admin atau Customer untuk melanjutkan</p>
     <div class="bg-slate-50 border rounded-lg p-3 text-xs mb-6">
         <p class="font-semibold mb-1">Akun Demo (setelah seeder):</p>

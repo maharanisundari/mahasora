@@ -7,10 +7,12 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StoreController;
 
-// Public catalog
+// Public catalog + Info Toko (bisa dilihat guest, pembeli, admin)
 Route::get('/', [ServiceController::class, 'catalog'])->name('catalog.index');
 Route::get('/services/{service}', [ServiceController::class, 'show'])->name('catalog.show');
+Route::get('/toko', [StoreController::class, 'show'])->name('store.show');
 
 // Auth guest
 Route::middleware('guest')->group(function () {
@@ -59,4 +61,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/orders', [OrderController::class, 'adminStore'])->name('orders.store');
     Route::get('/orders/{order}', [OrderController::class, 'adminShow'])->name('orders.show');
     Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+
+    // Info Toko - hanya admin yang bisa edit
+    Route::get('/store', [StoreController::class, 'edit'])->name('store.edit');
+    Route::put('/store', [StoreController::class, 'update'])->name('store.update');
 });

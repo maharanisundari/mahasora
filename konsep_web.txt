@@ -1,6 +1,6 @@
 # Dokumen Konsep Sistem & Perencanaan Proyek
 ## Seleksi Teaching Factory (TeFa) - Kompetensi Keahlian RPL SMKN 1 Katapang
-**Judul Proyek:** Sistem Pemesanan Layanan Berbasis Web (NusantaraStore)  
+**Judul Proyek:** Sistem Pemesanan Layanan Berbasis Web (MahaSora)  
 **Tech Stack:** Laravel, MySQL, Blade Template Engine, Tailwind CSS  
 
 ---

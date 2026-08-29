@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title','NusantaraStore') - Sistem Pemesanan Layanan</title>
+    <title>@yield('title','MahaSora') - Sistem Pemesanan Layanan</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
@@ -12,11 +12,17 @@
             <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center gap-8">
                     <a href="{{ route('catalog.index') }}" class="flex items-center gap-2 font-bold text-xl text-indigo-700">
-                        NusantaraStore
+                        @if(isset($storeInfo) && $storeInfo->logo)
+                            <img src="{{ asset('storage/'.$storeInfo->logo) }}" alt="Logo" class="w-9 h-9 rounded-lg object-cover border">
+                        @else
+                            <span class="w-9 h-9 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-bold text-sm">MS</span>
+                        @endif
+                        {{ $storeInfo->store_name ?? 'MahaSora' }}
                         <span class="hidden sm:inline text-xs bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full">TeFa RPL SMKN 1 Katapang</span>
                     </a>
                     <div class="hidden md:flex items-center gap-4 text-sm">
                         <a href="{{ route('catalog.index') }}" class="hover:text-indigo-600 {{ request()->routeIs('catalog.*') ? 'text-indigo-600 font-semibold' : '' }}">Katalog</a>
+                        <a href="{{ route('store.show') }}" class="hover:text-indigo-600 {{ request()->routeIs('store.show') ? 'text-indigo-600 font-semibold' : '' }}">Info Toko</a>
                         @auth
                             @if(auth()->user()->role==='customer')
                                 <a href="{{ route('orders.my') }}" class="hover:text-indigo-600 {{ request()->routeIs('orders.my*') ? 'text-indigo-600 font-semibold' : '' }}">Pesanan Saya</a>
@@ -92,8 +98,35 @@
         @yield('content')
     </main>
 
-    <footer class="bg-white border-t mt-8 py-6 text-center text-sm text-slate-500">
-        <p>&copy; {{ date('Y') }} NusantaraStore - Teaching Factory RPL SMKN 1 Katapang. Dibuat dengan Laravel & Tailwind CSS.</p>
+    <footer class="bg-white border-t mt-8 py-6 text-sm text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            @if(isset($storeInfo))
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                    <div>
+                        <p class="font-bold text-slate-800 flex items-center gap-2">
+                            @if($storeInfo->logo)
+                                <img src="{{ asset('storage/'.$storeInfo->logo) }}" class="w-6 h-6 rounded object-cover">
+                            @endif
+                            {{ $storeInfo->store_name }}
+                        </p>
+                        <p class="mt-1 line-clamp-3">{{ $storeInfo->description }}</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-slate-700">Kontak & Alamat</p>
+                        <p class="mt-1">{{ $storeInfo->address }}</p>
+                        <p>Telp/WA: {{ $storeInfo->whatsapp ?? $storeInfo->phone }} | Email: {{ $storeInfo->email }}</p>
+                        @if($storeInfo->instagram)<p>IG: {{ $storeInfo->instagram }} | FB: {{ $storeInfo->facebook }}</p>@endif
+                    </div>
+                    <div class="text-right md:text-right">
+                        <p class="font-semibold">Jam Buka: {{ $storeInfo->opening_hours }}</p>
+                        <a href="{{ route('store.show') }}" class="text-indigo-600 hover:underline">Lihat Info Toko Lengkap →</a>
+                        <p class="mt-3">&copy; {{ date('Y') }} {{ $storeInfo->store_name }} - TeFa RPL SMKN 1 Katapang. Laravel & Tailwind CSS.</p>
+                    </div>
+                </div>
+            @else
+                <p class="text-center">&copy; {{ date('Y') }} MahaSora - Teaching Factory RPL SMKN 1 Katapang. Dibuat dengan Laravel & Tailwind CSS.</p>
+            @endif
+        </div>
     </footer>
 </body>
 </html>

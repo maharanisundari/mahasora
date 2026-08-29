@@ -10,8 +10,10 @@
                 <a href="{{ route('admin.customers.index') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg {{ request()->routeIs('admin.customers.*') ? 'bg-indigo-600 text-white' : 'hover:bg-slate-100' }}">Manajemen Pelanggan</a>
                 <a href="{{ route('admin.orders.index') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg {{ request()->routeIs('admin.orders.*') ? 'bg-indigo-600 text-white' : 'hover:bg-slate-100' }}">Monitoring Pesanan</a>
                 <a href="{{ route('admin.orders.create') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100">+ Input Pesanan Offline</a>
+                <a href="{{ route('admin.store.edit') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg {{ request()->routeIs('admin.store.*') ? 'bg-indigo-600 text-white' : 'hover:bg-slate-100' }}">Info Toko</a>
                 <div class="border-t my-2"></div>
                 <a href="{{ route('catalog.index') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100">Lihat Katalog</a>
+                <a href="{{ route('store.show') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100">Lihat Info Toko (Pembeli)</a>
             </nav>
         </div>
     </aside>
