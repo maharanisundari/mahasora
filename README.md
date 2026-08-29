@@ -7,7 +7,7 @@
 | Komponen | Teknologi | Keterangan |
 |---|---|---|
 | Framework | **Laravel 13** (`laravel/framework ^13.17`) | MVC, Eloquent ORM, Routing, Middleware |
-| Database | **MySQL 8 (XAMPP)** (`nusantarastore`) | Persisten, migrasi + seeder |
+| Database | **MySQL 8 (XAMPP)** (`mahasora`) | Persisten, migrasi + seeder |
 | Template Engine | **Blade** | `resources/views/*.blade.php` |
 | CSS Framework | **Tailwind CSS 4** (`@tailwindcss/vite ^4.0.0`) | Via Vite `resources/css/app.css` + `@vite` |
 | Bahasa | PHP 8.3+ | Validasi `validate()`, error handling `abort()` |
@@ -15,7 +15,7 @@
 Tidak ada library/package tambahan di luar stack wajib (cek `composer.json` hanya `laravel/framework`, `laravel/tinker`; `package.json` hanya `tailwindcss`, `vite`, `laravel-vite-plugin`).
 
 ## 2. Ringkasan 7 Fitur Minimum (Poin D)
-| No | Modul | Spesifikasi Minimum (Instruksi) | Implementasi di nusantarastore | Route / File |
+| No | Modul | Spesifikasi Minimum (Instruksi) | Implementasi di mahasora | Route / File |
 |---|---|---|---|---|
 | 1 | **Manajemen Layanan** | CRUD layanan (tambah, lihat, ubah, hapus) | Admin CRUD penuh + katalog publik | `GET /admin/services` (`ServiceController@index`), `GET /` katalog + `GET /services/{id}` detail (`ServiceController@catalog/show`) — `resources/views/admin/services/*`, `catalog/*` |
 | 2 | **Manajemen Pelanggan** | Mengelola profil & informasi pelanggan | Admin `users.role=customer` CRUD (nama, email, phone, address, avatar, bio, status) + pelanggan update profil sendiri | `GET /admin/customers` (`CustomerController@index`), `GET /profile` (`ProfileController@edit/update`), `resources/views/profile/edit.blade.php` |
@@ -86,10 +86,10 @@ ecommerce/
 git clone <repo-url> "web ecommerce"
 cd "web ecommerce"
 composer install
-copy .env.example .env   # atau pakai .env yang ada (APP_NAME=MahaSora, DB_DATABASE=nusantarastore)
+copy .env.example .env   # atau pakai .env yang ada (APP_NAME=MahaSora, DB_DATABASE=mahasora)
 php artisan key:generate
 # Buat DB MySQL
-mysql -u root -e "CREATE DATABASE nusantarastore CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+mysql -u root -e "CREATE DATABASE mahasora CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 php artisan migrate --seed   # atau migrate:fresh --seed
 php artisan storage:link
 npm install
@@ -99,14 +99,14 @@ php artisan serve --port=8000
 ```
 
 ### Akun Demo (Seeder)
-- **Admin:** `admin@nusa.test` / `password` → `/admin/dashboard`
-- **Customer:** `budi@nusa.test` / `password`, `siti@nusa.test` / `password`, `andi@nusa.test` / `password` → `/` katalog → `Checkout`
+- **Admin:** `admin@mahasora.test` / `password` → `/admin/dashboard`
+- **Customer:** `budi@mahasora.test` / `password`, `siti@mahasora.test` / `password`, `andi@mahasora.test` / `password` → `/` katalog → `Checkout`
 - Semua password `password` (hash `bcrypt`).
 
 ### Database / Data
 - Migrasi: `database/migrations/*`
 - Seeder: `database/seeders/DatabaseSeeder.php`
-- Dump: `database/nusantarastore.sql` (export via `mysqldump -u root nusantarastore > database/nusantarastore.sql`) — sertakan jika diminta penguji.
+- Dump: `database/mahasora.sql` (export via `mysqldump -u root mahasora > database/mahasora.sql`) — sertakan jika diminta penguji.
 
 ### Build
 - `public/build/manifest.json` + `public/build/assets/*` hasil `vite build` — wajib ada saat `php artisan serve` tanpa `vite dev`.

@@ -62,7 +62,8 @@ class OrderController extends Controller
     {
         $services = Service::all();
         $customers = User::where('role', 'customer')->get();
-        return view('admin.orders.create', compact('services', 'customers'));
+        $store = \App\Models\StoreSetting::current();
+        return view('admin.orders.create', compact('services', 'customers', 'store'));
     }
 
     public function adminStore(Request $request)

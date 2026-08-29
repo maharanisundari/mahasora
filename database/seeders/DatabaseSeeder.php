@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
     {
         $admin = \App\Models\User::create([
             'name' => 'Admin MahaSora',
-            'email' => 'admin@nusa.test',
+            'email' => 'admin@mahasora.test',
             'password' => 'password',
             'phone' => '081234567890',
             'address' => 'Jl. Katapang No. 1, Bandung',
@@ -29,9 +29,9 @@ class DatabaseSeeder extends Seeder
         \App\Models\StoreSetting::current();
 
         $customers = [
-            ['name' => 'Budi Santoso', 'email' => 'budi@nusa.test', 'phone' => '081111111111', 'address' => 'Katapang, Bandung'],
-            ['name' => 'Siti Aminah', 'email' => 'siti@nusa.test', 'phone' => '082222222222', 'address' => 'Soreang, Bandung'],
-            ['name' => 'Andi Wijaya', 'email' => 'andi@nusa.test', 'phone' => '083333333333', 'address' => 'Cililin, Bandung'],
+            ['name' => 'Budi Santoso', 'email' => 'budi@mahasora.test', 'phone' => '081111111111', 'address' => 'Katapang, Bandung'],
+            ['name' => 'Siti Aminah', 'email' => 'siti@mahasora.test', 'phone' => '082222222222', 'address' => 'Soreang, Bandung'],
+            ['name' => 'Andi Wijaya', 'email' => 'andi@mahasora.test', 'phone' => '083333333333', 'address' => 'Cililin, Bandung'],
         ];
         $customerModels = [];
         foreach ($customers as $c) {
@@ -68,7 +68,12 @@ class DatabaseSeeder extends Seeder
                 'user_id' => $cust->id,
                 'service_id' => $svc->id,
                 'total_price' => $svc->price,
-                'order_type' => rand(0,1) ? 'online' : 'offline',
+                'order_type' => rand(0,1) ? 'media_sosial' : 'offline',
+                'payment_method' => ['cash','transfer_bank','dana'][array_rand(['cash','transfer_bank','dana'])],
+                'payment_status' => ['belum_bayar','dp_50','lunas'][array_rand(['belum_bayar','dp_50','lunas'])],
+                'delivery_type' => rand(0,1) ? 'ambil_di_toko' : 'antar',
+                'delivery_address' => rand(0,1) ? 'Jl. Contoh No. '.$i : null,
+                'ongkir' => rand(0,1) ? 15000 : 0,
                 'notes' => 'Demo order #' . $i,
             ]);
             \App\Models\OrderStatus::create(['order_id' => $order->id, 'status' => 'pending', 'updated_by' => $admin->id, 'created_at' => now()->subDays($i)]);

@@ -46,14 +46,15 @@
         <div>
             <label class="text-sm font-medium">Metode Pembayaran *</label>
             <select name="payment_method" required class="w-full border rounded-lg px-3 py-2 mt-1">
-                <option value="cash">Cash</option>
-                <option value="transfer_bank">Transfer Bank</option>
-                <option value="dana">DANA</option>
-                <option value="ovo">OVO</option>
-                <option value="gopay">GoPay</option>
-                <option value="shopeepay">ShopeePay</option>
+                <option value="cash">Cash (Bayar di toko / COD)</option>
+                <option value="transfer_bank">Transfer Bank — {{ $store->bank_name ?? 'BCA' }} {{ $store->bank_account_number ?? '1234567890' }} a.n {{ $store->bank_account_name ?? 'MahaSora' }}</option>
+                <option value="dana">DANA — {{ $store->whatsapp ?? '081234567890' }} a.n {{ $store->bank_account_name ?? 'MahaSora' }}</option>
+                <option value="ovo">OVO — {{ $store->whatsapp ?? '' }}</option>
+                <option value="gopay">GoPay — {{ $store->whatsapp ?? '' }}</option>
+                <option value="shopeepay">ShopeePay — {{ $store->whatsapp ?? '' }}</option>
                 <option value="lainnya">Lainnya</option>
             </select>
+            <p class="text-xs text-stone-500 mt-1 whitespace-pre-line">{{ $store->payment_instructions }}</p>
         </div>
         <div>
             <label class="text-sm font-medium">Status Pembayaran *</label>
