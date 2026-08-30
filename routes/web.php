@@ -80,3 +80,5 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     // Riwayat selesai dipisah
     Route::get('/history', [HistoryController::class, 'index'])->name('history.index');
 });
+
+// force deploy update
