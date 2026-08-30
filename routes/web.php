@@ -77,6 +77,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/store', [StoreController::class, 'edit'])->name('store.edit');
     Route::put('/store', [StoreController::class, 'update'])->name('store.update');
 
-    // Riwayat selesai terpisah
+    // Riwayat selesai dipisah
     Route::get('/history', [HistoryController::class, 'index'])->name('history.index');
 });
