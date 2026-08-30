@@ -1,0 +1,10 @@
+[build]
+builder = "nixpacks"
+
+[deploy]
+startCommand = "php artisan serve --host=0.0.0.0 --port=$PORT"
+restartPolicyType = "ON_FAILURE"
+
+[nixpacks]
+aptPackages = ["libpng-dev", "libjpeg-dev", "libfreetype6-dev", "libzip-dev", "unzip", "git"]
+phpExtensions = ["gd", "zip", "pdo_mysql", "mbstring", "xml", "bcmath", "curl", "fileinfo"]

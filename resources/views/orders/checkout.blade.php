@@ -56,16 +56,14 @@
                 <label class="text-sm font-medium">Alamat Antar *</label>
                 <textarea name="delivery_address" rows="2" placeholder="Jl. ... Kec. ... Kota ..." class="w-full border rounded-lg px-3 py-2 mt-1">{{ old('delivery_address', auth()->user()->address) }}</textarea>
             </div>
-            <p id="ongkir-info" class="text-xs text-stone-500 mt-2">Ongkir: Rp 0 — Total akan ditambah ongkir jika diantar.</p>
-            <p class="text-xs font-semibold text-amber-800">Pilihan: pembeli datang ke penjual (ambil) atau penjual antar ke pembeli.</p>
+            <p id="ongkir-info" class="text-xs text-stone-500 mt-2">Ongkir: Rp 0</p>
         </div>
 
         <div class="mt-3">
             <label class="text-sm font-medium">Catatan (opsional)</label>
             <textarea name="notes" rows="3" placeholder="Contoh: minta revisi 2x, deadline cepat..." class="w-full border rounded-lg px-3 py-2 mt-1">{{ old('notes') }}</textarea>
         </div>
-        <button class="w-full mt-6 bg-amber-800 text-white py-3 rounded-lg font-bold hover:bg-amber-900">Konfirmasi Pesanan &amp; Buat Kode Transaksi</button>
+        <button class="w-full mt-6 bg-amber-800 text-white py-3 rounded-lg font-bold hover:bg-amber-900">Konfirmasi Pesanan & Buat Kode Transaksi</button>
     </form>
-    <p class="text-xs text-slate-500 mt-3 text-center">Dengan checkout, sistem menghitung total, menerbitkan kode unik, dan menyimpan ke database.</p>
 </div>
 @endsection

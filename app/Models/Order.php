@@ -21,16 +21,28 @@ class Order extends Model
         'delivery_address',
         'ongkir',
         'notes',
+        'cancellation_status',
+        'cancellation_reason',
+        'cancellation_requested_at',
+        'cancellation_processed_at',
+        'cancellation_processed_by',
     ];
 
     protected $casts = [
         'total_price' => 'decimal:2',
         'ongkir' => 'decimal:2',
+        'cancellation_requested_at' => 'datetime',
+        'cancellation_processed_at' => 'datetime',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function cancellationProcessor()
+    {
+        return $this->belongsTo(User::class, 'cancellation_processed_by');
     }
 
     public function service()

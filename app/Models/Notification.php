@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Notification extends Model
 {
-    protected $fillable = ['type', 'data', 'read_at'];
+    protected $fillable = ['notifiable_id', 'notifiable_type', 'type', 'data', 'read_at'];
 
     protected $casts = [
         'data' => 'array',

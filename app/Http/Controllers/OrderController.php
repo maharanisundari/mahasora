@@ -161,6 +161,16 @@ class OrderController extends Controller
     {
         if ($order->user_id !== Auth::id() && Auth::user()->role !== 'admin') abort(403);
         $order->load(['service', 'user', 'statuses.updater']);
+
+        // Mark order_status_update notifications as read for this order
+        if (auth()->user()->role === 'customer') {
+            auth()->user()->notifications()
+                ->where('type', 'order_status_update')
+                ->where('data->order_id', $order->id)
+                ->whereNull('read_at')
+                ->update(['read_at' => now()]);
+        }
+
         return view('orders.show', compact('order'));
     }
 
@@ -183,6 +193,19 @@ class OrderController extends Controller
                     ->orWhereHas('service', fn($s) => $s->where('service_name', 'like', "%$q%"));
             });
         }
+        // Filter cancellation requests
+        if ($request->filled('cancellation')) {
+            $query->where('cancellation_status', $request->cancellation);
+        }
+
+        // Mark all new_order notifications as read when admin views monitoring orders
+        if (auth()->user()->role === 'admin') {
+            auth()->user()->notifications()
+                ->where('type', 'new_order')
+                ->whereNull('read_at')
+                ->update(['read_at' => now()]);
+        }
+
         $orders = $query->latest()->paginate(15)->withQueryString();
         return view('admin.orders.index', compact('orders'));
     }
@@ -246,5 +269,117 @@ class OrderController extends Controller
         ]);
 
         return back()->with('success', 'Status pembayaran diperbarui ke ' . $request->payment_status);
+    }
+
+    // Customer: Request cancellation
+    public function requestCancellation(Request $request, Order $order)
+    {
+        if ($order->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        // Check if order can be cancelled
+        if (in_array($order->current_status, ['selesai', 'dibatalkan'])) {
+            return back()->withErrors(['cancellation' => 'Pesanan yang sudah selesai atau dibatalkan tidak bisa dibatalkan lagi.']);
+        }
+
+        if ($order->cancellation_status !== 'none') {
+            return back()->withErrors(['cancellation' => 'Permintaan pembatalan sudah diajukan sebelumnya.']);
+        }
+
+        $request->validate([
+            'cancellation_reason' => 'required|string|max:500',
+        ]);
+
+        $order->update([
+            'cancellation_status' => 'requested',
+            'cancellation_reason' => $request->cancellation_reason,
+            'cancellation_requested_at' => now(),
+        ]);
+
+        // Notify all admins about cancellation request
+        $admins = User::where('role', 'admin')->get();
+        foreach ($admins as $admin) {
+            Notification::create([
+                'notifiable_id' => $admin->id,
+                'notifiable_type' => User::class,
+                'type' => 'cancellation_request',
+                'data' => [
+                    'order_id' => $order->id,
+                    'order_code' => $order->order_code,
+                    'customer_name' => $order->user->name,
+                    'reason' => $request->cancellation_reason,
+                    'message' => "{$order->user->name} meminta pembatalan pesanan {$order->order_code}: {$request->cancellation_reason}",
+                ],
+            ]);
+        }
+
+        return back()->with('success', 'Permintaan pembatalan pesanan telah dikirim ke admin. Menunggu persetujuan.');
+    }
+
+    // Admin: Accept cancellation
+    public function acceptCancellation(Request $request, Order $order)
+    {
+        if ($order->cancellation_status !== 'requested') {
+            return back()->withErrors(['cancellation' => 'Tidak ada permintaan pembatalan yang menunggu.']);
+        }
+
+        $order->update([
+            'cancellation_status' => 'accepted',
+            'cancellation_processed_at' => now(),
+            'cancellation_processed_by' => Auth::id(),
+        ]);
+
+        // Update order status to dibatalkan
+        OrderStatus::create([
+            'order_id' => $order->id,
+            'status' => 'dibatalkan',
+            'updated_by' => Auth::id(),
+            'created_at' => now(),
+        ]);
+
+        // Notify customer
+        Notification::create([
+            'notifiable_id' => $order->user_id,
+            'notifiable_type' => User::class,
+            'type' => 'cancellation_response',
+            'data' => [
+                'order_id' => $order->id,
+                'order_code' => $order->order_code,
+                'accepted' => true,
+                'message' => "Permintaan pembatalan pesanan {$order->order_code} telah DITERIMA oleh admin.",
+            ],
+        ]);
+
+        return back()->with('success', 'Permintaan pembatalan diterima. Pesanan dibatalkan.');
+    }
+
+    // Admin: Reject cancellation
+    public function rejectCancellation(Request $request, Order $order)
+    {
+        if ($order->cancellation_status !== 'requested') {
+            return back()->withErrors(['cancellation' => 'Tidak ada permintaan pembatalan yang menunggu.']);
+        }
+
+        $order->update([
+            'cancellation_status' => 'rejected',
+            'cancellation_processed_at' => now(),
+            'cancellation_processed_by' => Auth::id(),
+        ]);
+
+        // Notify customer
+        Notification::create([
+            'notifiable_id' => $order->user_id,
+            'notifiable_type' => User::class,
+            'type' => 'cancellation_response',
+            'data' => [
+                'order_id' => $order->id,
+                'order_code' => $order->order_code,
+                'accepted' => false,
+                'message' => "Permintaan pembatalan pesanan {$order->order_code} telah DITOLAK oleh admin.",
+            ],
+        ]);
+
+        return back()->with('success', 'Permintaan pembatalan ditolak. Pesanan tetap berlangsung.');
     }
 }

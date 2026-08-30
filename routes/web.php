@@ -39,6 +39,13 @@ Route::middleware(['auth', 'role:customer'])->group(function () {
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
     Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('orders.my');
     Route::get('/my-orders/{order}', [OrderController::class, 'myShow'])->name('orders.myShow');
+    Route::post('/my-orders/{order}/request-cancellation', [OrderController::class, 'requestCancellation'])->name('orders.requestCancellation');
+});
+
+// Admin cancellation requests
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::patch('/orders/{order}/accept-cancellation', [OrderController::class, 'acceptCancellation'])->name('orders.acceptCancellation');
+    Route::patch('/orders/{order}/reject-cancellation', [OrderController::class, 'rejectCancellation'])->name('orders.rejectCancellation');
 });
 
 // Admin group

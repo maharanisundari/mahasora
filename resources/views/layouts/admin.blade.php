@@ -10,9 +10,12 @@
                 <a href="{{ route('admin.customers.index') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg {{ request()->routeIs('admin.customers.*') ? 'bg-amber-600 text-white' : 'hover:bg-slate-100' }}">Manajemen Pelanggan</a>
                 <a href="{{ route('admin.orders.index') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg {{ request()->routeIs('admin.orders.index') || request()->routeIs('admin.orders.show') || request()->routeIs('admin.orders.updateStatus') || request()->routeIs('admin.orders.updatePayment') ? 'bg-amber-600 text-white' : 'hover:bg-slate-100' }}">
     Monitoring Pesanan
-    @php $unreadCount = auth()->user()->unreadNotifications()->where('type', 'new_order')->count(); @endphp
-    @if($unreadCount > 0)
-        <span class="ml-2 px-2 py-0.5 text-xs bg-red-600 text-white rounded-full">{{ $unreadCount }}</span>
+    @php 
+        $pendingOrdersCount = \App\Models\Order::whereHas('latestStatus', fn($q) => $q->where('status', 'pending'))->count();
+        $cancellationCount = \App\Models\Order::where('cancellation_status', 'requested')->count();
+    @endphp
+    @if($pendingOrdersCount > 0 || $cancellationCount > 0)
+        <span class="ml-2 px-2 py-0.5 text-xs bg-red-500 text-white rounded-full ring-2 ring-white">{{ $pendingOrdersCount + $cancellationCount }}</span>
     @endif
 </a>
                 <a href="{{ route('admin.orders.create') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg {{ request()->routeIs('admin.orders.create') ? 'bg-amber-600 text-white' : 'hover:bg-slate-100' }}">+ Input Pesanan Offline</a>

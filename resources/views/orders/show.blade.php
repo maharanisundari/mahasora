@@ -55,6 +55,50 @@
                 @endif
             </div>
         </div>
+
+        {{-- Cancellation Request --}}
+        @if(auth()->user()->role === 'customer' && $order->user_id === auth()->id())
+            @if($order->cancellation_status === 'none' && !in_array($order->current_status, ['selesai', 'dibatalkan']))
+                <div class="px-6 pb-4">
+                    <form method="POST" action="{{ route('orders.requestCancellation', $order) }}" class="bg-red-50 border border-red-200 rounded-lg p-4">
+                        @csrf
+                        <h4 class="font-bold text-red-700 mb-2">Minta Pembatalan Pesanan</h4>
+                        <p class="text-sm text-red-600 mb-3">Pesanan hanya bisa dibatalkan jika belum selesai. Admin akan meninjau permintaan Anda.</p>
+                        <div class="mb-3">
+                            <label class="block text-sm font-medium text-red-700 mb-1">Alasan Pembatalan *</label>
+                            <textarea name="cancellation_reason" required rows="3" placeholder="Jelaskan alasan ingin membatalkan pesanan..." class="w-full border border-red-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 focus:outline-none"></textarea>
+                        </div>
+                        <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 text-sm font-medium">Kirim Permintaan Pembatalan</button>
+                    </form>
+                </div>
+            @elseif($order->cancellation_status === 'requested')
+                <div class="px-6 pb-4">
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                        <h4 class="font-bold text-yellow-700 mb-1">Permintaan Pembatalan Diajukan</h4>
+                        <p class="text-sm text-yellow-600">Menunggu persetujuan admin.</p>
+                        <p class="text-xs text-yellow-500 mt-1"><strong>Alasan:</strong> {{ $order->cancellation_reason }}</p>
+                        <p class="text-xs text-yellow-500 mt-1">Diajukan: {{ $order->cancellation_requested_at->format('d M Y H:i') }}</p>
+                    </div>
+                </div>
+            @elseif($order->cancellation_status === 'accepted')
+                <div class="px-6 pb-4">
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                        <h4 class="font-bold text-green-700 mb-1">Pembatalan Disetujui</h4>
+                        <p class="text-sm text-green-600">Permintaan pembatalan telah disetujui oleh admin.</p>
+                        <p class="text-xs text-green-500 mt-1">Diproses: {{ $order->cancellation_processed_at->format('d M Y H:i') }}</p>
+                    </div>
+                </div>
+            @elseif($order->cancellation_status === 'rejected')
+                <div class="px-6 pb-4">
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                        <h4 class="font-bold text-red-700 mb-1">Pembatalan Ditolak</h4>
+                        <p class="text-sm text-red-600">Permintaan pembatalan ditolak oleh admin. Pesanan tetap berlangsung.</p>
+                        <p class="text-xs text-red-500 mt-1">Diproses: {{ $order->cancellation_processed_at->format('d M Y H:i') }}</p>
+                    </div>
+                </div>
+            @endif
+        @endif
+
         <div class="px-6 pb-6">
             <h3 class="font-bold mb-3">Riwayat Status</h3>
             <div class="relative border-l-2 border-slate-200 ml-3 space-y-4">

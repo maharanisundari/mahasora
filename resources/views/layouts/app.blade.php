@@ -4,7 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title','MahaSora') - Sistem Pemesanan Layanan</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Instrument Sans', sans-serif; }
+    </style>
+    @vite(['resources/js/app.js'])
 </head>
 <body class="bg-[#FFFBF0] text-stone-800 min-h-screen flex flex-col">
     <nav class="bg-[#FFFEFB] shadow-sm border-b border-amber-100 sticky top-0 z-50">
@@ -48,11 +55,14 @@
                                 <span class="hidden sm:inline">{{ auth()->user()->name }}</span>
                                 <span class="text-xs">▼</span>
                                 @php
-                                    $notifType = auth()->user()->role === 'admin' ? 'new_order' : 'order_status_update';
-                                    $unreadCount = auth()->user()->unreadNotifications()->where('type', $notifType)->count();
+                                    if (auth()->user()->role === 'admin') {
+                                        $notifCount = \App\Models\Order::whereHas('latestStatus', fn($q) => $q->where('status', 'pending'))->count();
+                                    } else {
+                                        $notifCount = auth()->user()->unreadNotifications()->where('type', 'order_status_update')->count();
+                                    }
                                 @endphp
-                                @if($unreadCount > 0)
-                                    <span class="absolute -top-1 -right-1 w-5 h-5 bg-red-600 text-white text-xs rounded-full flex items-center justify-center">{{ $unreadCount }}</span>
+                                @if($notifCount > 0)
+                                    <span class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center ring-2 ring-white">{{ $notifCount }}</span>
                                 @endif
                             </button>
                             <div class="absolute right-0 mt-2 w-72 bg-white shadow-lg rounded-lg border border-amber-100 hidden group-hover:block z-50">
@@ -67,14 +77,14 @@
                                     <a href="{{ route('admin.customers.index') }}" class="block px-4 py-2 text-sm hover:bg-amber-50">Pelanggan</a>
                                     <a href="{{ route('admin.orders.index') }}" class="block px-4 py-2 text-sm hover:bg-amber-50 flex justify-between items-center">
                                         Monitoring Pesanan
-                                        @php $c = auth()->user()->unreadNotifications()->where('type', 'new_order')->count(); @endphp
-                                        @if($c > 0)<span class="px-2 py-0.5 text-xs bg-red-600 text-white rounded-full">{{ $c }}</span>@endif
+                                        @php $c = \App\Models\Order::whereHas('latestStatus', fn($q) => $q->where('status', 'pending'))->count(); @endphp
+                                        @if($c > 0)<span class="px-2 py-0.5 text-xs bg-red-500 text-white rounded-full ring-2 ring-white">{{ $c }}</span>@endif
                                     </a>
                                 @else
                                     <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-sm hover:bg-amber-50 flex justify-between items-center">
                                         Dashboard
                                         @php $c = auth()->user()->unreadNotifications()->where('type', 'order_status_update')->count(); @endphp
-                                        @if($c > 0)<span class="px-2 py-0.5 text-xs bg-red-600 text-white rounded-full">{{ $c }}</span>@endif
+                                        @if($c > 0)<span class="px-2 py-0.5 text-xs bg-red-500 text-white rounded-full ring-2 ring-white">{{ $c }}</span>@endif
                                     </a>
                                     <a href="{{ route('orders.my') }}" class="block px-4 py-2 text-sm hover:bg-amber-50">Pesanan Saya</a>
                                 @endif
