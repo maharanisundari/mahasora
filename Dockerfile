@@ -27,8 +27,11 @@ WORKDIR /var/www/html
 # Copy composer files first (for caching)
 COPY composer.json composer.lock ./
 
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+# Copy artisan and bootstrap/app.php for package discovery
+COPY artisan bootstrap/app.php ./
+
+# Install PHP dependencies (skip scripts to avoid artisan error during build)
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
 
 # Copy application code
 COPY . .
@@ -36,6 +39,9 @@ COPY . .
 # Copy package.json and install JS dependencies
 COPY package.json package-lock.json* ./
 RUN npm ci && npm run build
+
+# Run package discovery now that all files are present
+RUN php artisan package:discover --ansi
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
